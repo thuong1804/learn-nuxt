@@ -2,7 +2,6 @@
 import { Icon } from '#components';
 import Navbar from './navbar.vue';
 import SearchBar from '~/component/searchbar.vue';
-
 </script>
 
 <template>
@@ -17,5 +16,4 @@ import SearchBar from '~/component/searchbar.vue';
       </div>
     </div>
   </div>
-
 </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { NuxtLoadingIndicator } from '#components';
-import { NuxtPage } from '#components';
+import { NuxtLayout, NuxtPage } from '#components';
 
 const nav = [
   { label: 'Home', to: '/' },
@@ -8,12 +7,7 @@ const nav = [
 </script>
 
 <template>
- <NuxtExample
-    dir="routing/pages"
-    :nav="nav"
-    current-route
-  >
-    <NuxtLoadingIndicator />
+  <NuxtLayout>
     <NuxtPage />
-  </NuxtExample>
+  </NuxtLayout>
 </template>

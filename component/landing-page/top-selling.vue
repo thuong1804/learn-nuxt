@@ -13,11 +13,11 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
         <img :src="ImgCard1" class="rounded-[20px] pb-4" />
         <div class="font-bold text-[16px] pb-2">T-SHIRT WITH TAPE DETAILS</div>
         <div class="flex">
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
         </div>
         <div class="font-bold text-2xl">$120</div>
       </div>
@@ -25,11 +25,11 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
         <img :src="ImgCard2" class="rounded-[20px] pb-4" />
         <div class="font-bold text-[16px] pb-2">SKINNY FIT JEANS</div>
         <div class="flex">
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
         </div>
         <div class="font-bold text-2xl flex items-center gap-2.5">$120
           <span class="text-[#00000066]">$260</span>
@@ -42,11 +42,11 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
         <img :src="ImgCard3" class="rounded-[20px] pb-4" />
         <div class="font-bold text-[16px] pb-2">CHECKERED SHIRT</div>
         <div class="flex">
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
         </div>
         <div class="font-bold text-2xl">$120</div>
       </div>
@@ -54,11 +54,11 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
         <img :src="ImgCard4" class="rounded-[20px] pb-4" />
         <div class="font-bold text-[16px] pb-2">SLEEVE STRIPED T-SHIRT</div>
         <div class="flex">
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
-          <Icon name="ph:star-duotone" style="color: yellow" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
+          <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" />
         </div>
         <div class="font-bold text-2xl">$120</div>
       </div>

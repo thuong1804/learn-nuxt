@@ -6,9 +6,9 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
 </script>
 
 <template>
-  <div class="flex flex-col items-center pt-[72px]">
-    <h1 class="font-bold text-[48px] text-center pb-[55px]">NEW ARRIVALS</h1>
-    <div class="flex items-center justify-between max-w-96 md:max-w-[78rem] w-full pb-[36px]">
+  <div class="flex flex-col items-center pb-[170px]">
+    <h1 class="font-bold text-[48px] text-center pb-[55px] uppercase">You might also like</h1>
+    <div class="flex items-center justify-between max-w-96 md:max-w-[78rem] w-full pb-[36px] gap-5">
       <div class="flex flex-col items-start">
         <img :src="ImgCard1" class="rounded-[20px] pb-4" />
         <div class="font-bold text-[16px] pb-2">T-SHIRT WITH TAPE DETAILS</div>
@@ -63,10 +63,5 @@ import ImgCard4 from '@/assets/images/itemCard4.png'
         <div class="font-bold text-2xl">$120</div>
       </div>
     </div>
-    <button
-      class="cursor-pointer w-[218px] h-[52px] border-[#0000001A] border rounded-[62px] flex justify-center items-center font-medium text-[16px]">View
-      All
-    </button>
-    <div class="border-b-[#0000001A] border-b max-w-96 md:max-w-[78rem] w-full pb-[64px]"></div>
   </div>
 </template>
