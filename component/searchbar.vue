@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 flex items-center border bg-[#F0F0F0] h-[48px] rounded-[62px] py-3 px-3 gap-3">
+  <div class="flex-1 flex items-center bg-[#F0F0F0] h-[48px] rounded-[62px] py-3 px-3 gap-3">
     <div>
       <Icon name="ph:magnifying-glass-light" style="color: black"  class="w-[22px]"/>
     </div>

@@ -20,7 +20,7 @@ const breadcrumbs = computed(() => {
 
 <template>
   <nav>
-    <ul class="flex gap-2.5 list-none py-2.5">
+    <ul class="flex gap-2.5 list-none pb-6">
       <li class="text-[16px] text-black/60 ">
         <NuxtLink  to="/">Home</NuxtLink>
         <span v-if="breadcrumbs.length > 0"> &gt; </span>

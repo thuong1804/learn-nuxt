@@ -47,12 +47,8 @@ import ImgShirt1 from "~/assets/images/shirt.png"
           <div class="w-[37px] h-[37px] bg-[#31344F] rounded-full flex items-center justify-center">
             <Icon name="material-symbols:check" style="color: white" class="text-[20px]" />
           </div>
-          <div class="w-[37px] h-[37px] bg-[#31344F] rounded-full flex items-center justify-center">
-            <Icon name="material-symbols:check" style="color: white" class="text-[20px]" />
-          </div>
-          <div class="w-[37px] h-[37px] bg-[#31344F] rounded-full flex items-center justify-center">
-            <Icon name="material-symbols:check" style="color: white" class="text-[20px]" />
-          </div>
+          <div class="w-[37px] h-[37px] bg-[#314F4A] rounded-full flex items-center justify-center"/>
+          <div class="w-[37px] h-[37px] bg-[#31344F] rounded-full flex items-center justify-center"/>
         </div>
       </div>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10"></div>
