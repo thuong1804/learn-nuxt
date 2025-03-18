@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 import Banner from '~/component/landing-page/banner.vue';
 import NewArrivals from '~/component/landing-page/new-arrivals.vue';
 import TopSelling from '~/component/landing-page/top-selling.vue';

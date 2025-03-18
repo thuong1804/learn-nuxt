@@ -13,5 +13,5 @@ export default defineNuxtConfig({
     ],
   },
 
-  modules: ['@nuxt/icon'],
+  modules: ['@nuxt/icon', '@vee-validate/nuxt', 'nuxt-toast'],
 })
