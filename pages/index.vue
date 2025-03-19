@@ -1,10 +1,11 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
 import Banner from '~/component/landing-page/banner.vue';
-import NewArrivals from '~/component/landing-page/new-arrivals.vue';
+import Popular from '~/component/landing-page/popular.vue';
 import TopSelling from '~/component/landing-page/top-selling.vue';
 import DressStyle from '~/component/landing-page/dress-style.vue';
 import OutHappyCustomers from '~/component/landing-page/out-happy-customers.vue';
+
 </script>
 
 <template>
@@ -18,7 +19,7 @@ import OutHappyCustomers from '~/component/landing-page/out-happy-customers.vue'
         <img src="/pra.png" class="w-[100px] h-[30px] object-contain" />
       </div>
     </div>
-    <NewArrivals/>
+    <Popular/>
     <TopSelling/>
     <DressStyle/>
     <OutHappyCustomers/>

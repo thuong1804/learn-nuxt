@@ -7,7 +7,7 @@
         <Input v-model="email" type="email" placeholder="Email" :error="errors.email" :inputAttrs="emailAttrs" />
         <Input v-model="password" type="password" placeholder="Password" :error="errors.password"
           :inputAttrs="passwordAttrs" />
-        <Button type="submit" class="w-full rounded-[60px] text-[18px]">Login</Button>
+        <Button type="submit" class="w-full rounded-[60px] text-[18px]"  title="Login" />
       </form>
     </div>
   </div>

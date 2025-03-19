@@ -1,9 +1,9 @@
 <template>
-  <ProductCardContainer v-if="data.length" title="TOP SELLING" :data="data" :filterData="{onSale: true}"/>
+  <ProductCardContainer title="Popular" :data="data" :filterData="{popular: true}"/>
 </template>
 
 <script setup>
-import ProductCardContainer from '../product-card/product-card-container.vue'
+import ProductCardContainer from '../product-card/product-card-container.vue';
 
 const data = ref([])
 
@@ -13,4 +13,6 @@ onMounted( async() => {
   })
   data.value = response.products
 })
+
 </script>
+
