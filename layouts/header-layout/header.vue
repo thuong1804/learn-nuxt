@@ -3,10 +3,22 @@ import { Icon } from '#components';
 import { NuxtLink } from '#components';
 import Navbar from './navbar.vue';
 import SearchBar from '~/component/searchbar.vue';
+import { useCookie } from '#app'
 
 const router = useRoute()
 const homePage = computed(() => router.path === '/');
 
+const userToken = useCookie('userToken')
+const userIcon = computed(() => {
+  return userToken.value
+    ? 'ic:baseline-log-out'
+    :'ph:user-bold'
+})
+
+const handelLogout = () => {
+  userToken.value = null
+  navigateTo('/auth/signin')
+}
 </script>
 
 <template>
@@ -19,7 +31,9 @@ const homePage = computed(() => router.path === '/');
         <NuxtLink to="/cart">
           <Icon name="ph:shopping-cart" style="color: black" class="text-[20px]" />
         </NuxtLink>
-        <Icon name="ph:user-bold" style="color: black" class="text-[20px]" />
+        <button class="cursor-pointer" @click="handelLogout">
+          <Icon :name="userIcon" style="color: black" class="text-[20px]" />
+        </button>
       </div>
     </div>
     <div class="max-w-96 md:max-w-[78rem] my-0 mx-auto pt-6" v-if="!homePage">
