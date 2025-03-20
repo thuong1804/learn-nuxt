@@ -1,5 +1,5 @@
 <template>
-  <ProductCardContainer title="Top Selling" :data="data" :onLoadMore="handleLoadMore"/>
+  <ProductCardContainer title="Top Popular" :data="data" :onLoadMore="handleLoadMore"/>
 </template>
 
 <script setup>
@@ -9,22 +9,19 @@ const data = ref([])
 const lengthData = ref(0)
 const limitInit = ref(8)
 
-
-const getProductsWithByDiscount = async() => {
-  const response = await $fetch(`https://dummyjson.com/products?sortBy=discountPercentage&limit=${limitInit.value}`, {
+const getProductsWithByRating = async() => {
+  const response = await $fetch(`https://dummyjson.com/products?sortBy=rating&limit=${limitInit.value}`, {
     method: 'GET',
   })
   data.value = response
   lengthData.value = response.total
 }
-
-getProductsWithByDiscount();
+getProductsWithByRating();
 
 const handleLoadMore = async() => {
-  console.log(limitInit.value, lengthData.value)
   if (limitInit.value < lengthData.value) {
     limitInit.value += 8
-    await getProductsWithByDiscount()
+    await getProductsWithByRating();
   }
 }
 

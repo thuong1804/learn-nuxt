@@ -13,5 +13,10 @@ export default defineNuxtConfig({
     ],
   },
 
-  modules: ['@nuxt/icon', '@vee-validate/nuxt', 'nuxt-toast'],
+  modules: [
+    '@nuxt/icon',
+    '@vee-validate/nuxt',
+    'nuxt-toast',
+    'vue3-carousel-nuxt',
+  ],
 })

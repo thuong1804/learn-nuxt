@@ -15,6 +15,19 @@ const userIcon = computed(() => {
     :'ph:user-bold'
 })
 
+const cart = ref([])
+const countItem = ref(0)
+
+onMounted(() => {
+  cart.value = JSON.parse(localStorage.getItem('cart')) || []
+console.log(cart.value)
+})
+
+watch(cart, (newCart) => {
+  console.log(newCart)
+  countItem.value = newCart.length
+}, { deep: true })
+
 const handelLogout = () => {
   userToken.value = null
   navigateTo('/auth/signin')
@@ -28,11 +41,12 @@ const handelLogout = () => {
       <Navbar />
       <SearchBar />
       <div class="flex gap-[14px]">
-        <NuxtLink to="/cart">
-          <Icon name="ph:shopping-cart" style="color: black" class="text-[20px]" />
+        <NuxtLink to="/cart" class="relative">
+          <span v-if="countItem > 0" class="absolute bg-red-600 text-white px-2 rounded-[50%] -top-3.5 -right-3">{{ countItem }}</span>
+          <Icon name="ph:shopping-cart" style="color: black" class="text-[25px]" />
         </NuxtLink>
         <button class="cursor-pointer" @click="handelLogout">
-          <Icon :name="userIcon" style="color: black" class="text-[20px]" />
+          <Icon :name="userIcon" style="color: black" class="text-[25px]" />
         </button>
       </div>
     </div>
