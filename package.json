@@ -25,6 +25,7 @@
     "vue-3-slider-component": "^1.0.2",
     "vue-router": "^4.5.0",
     "vue-slick-carousel": "^1.0.6",
+    "vue3-carousel-nuxt": "^1.1.5",
     "yup": "^1.6.1"
   },
   "devDependencies": {

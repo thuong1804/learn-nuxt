@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-[url(/bg-banner.png)] bg-cover h-full">
+  <div class="w-full bg-[url(/bg-banner.png)] bg-cover h-[700px]">
     <div class="flex flex-row justify-between items-center md:gap-10 max-w-96 md:max-w-[78rem] my-0 mx-auto">
       <div class="flex flex-col max-w-[50%] items-start justify-center pt-[103px] py-[116px]">
         <span class="font-bold text-4xl md:text-6xl mb-8 max-w-[577px] uppercase">Discover the Future of Tech</span>

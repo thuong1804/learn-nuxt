@@ -1,16 +1,32 @@
 <template>
-  <ProductCardContainer v-if="data.length" title="TOP SELLING" :data="data" :filterData="{onSale: true}"/>
+  <ProductCardContainer title="Top Selling" :data="data" :onLoadMore="handleLoadMore"/>
 </template>
 
 <script setup>
-import ProductCardContainer from '../product-card/product-card-container.vue'
+import ProductCardContainer from '../product-card/product-card-container.vue';
 
 const data = ref([])
+const lengthData = ref(0)
+const limitInit = ref(8)
 
-onMounted( async() => {
-  const response = await $fetch(`https://fakestoreapi.in/api/products`, {
+
+const getProductsWithByDiscount = async() => {
+  const response = await $fetch(`https://dummyjson.com/products?sortBy=discountPercentage&limit=${limitInit.value}`, {
     method: 'GET',
   })
-  data.value = response.products
-})
+  data.value = response
+  lengthData.value = response.total
+}
+
+getProductsWithByDiscount();
+
+const handleLoadMore = async() => {
+  console.log(limitInit.value, lengthData.value)
+  if (limitInit.value < lengthData.value) {
+    limitInit.value += 8
+    await getProductsWithByDiscount()
+  }
+}
+
 </script>
+

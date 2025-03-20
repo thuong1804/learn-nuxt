@@ -1,53 +1,103 @@
+
 <template>
-  <div class="flex flex-col items-center pb-[150px]">
+  <div class="w-full flex justify-center">
     <div class="max-w-96 md:max-w-[78rem] w-full">
       <Breadcrumb />
-      <ul class="flex gap-5 list-none">
-        <li v-for="(item, key) in itemFilter" :class="['rounded-[30px] py-2 px-6  cursor-pointer font-bold',
-          activeKey === key ? 'bg-[#3f3f46] text-white' : 'bg-[#fb86861a]']" @click="handleActive(key, item)">{{ item }}
-        </li>
-      </ul>
-      <ProductCardContainer :data="data" :filterData="{...valueFilter}" :sortMaxToMin="maxFilter"
-        :sortMinToMax="minFilter" />
+      <div class="flex gap-5 pb-[300px]">
+       <div class="w-1/4">
+        <Categories/>
+       </div>
+        <div class="flex-1">
+          <div class="flex items-center justify-between pb-4">
+            <h1 class="font-bold text-[32px]">
+              Casual
+            </h1>
+            <div class="flex items-center gap-3 text-[#00000099]">
+              <div class="text-[16px]">
+                Showing 1-10 of 100 Products
+              </div>
+              <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
+                Sort by: <b class="text-black">Most Popular</b>
+                <Icon name="material-symbols:keyboard-arrow-down-rounded" style="color: #000000" class="text-[20px]" />
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-9">
+            <NuxtLink :to="`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`"
+              class="flex flex-col items-start" v-for="item in itemsCard">
+              <img :src="item.img" class="rounded-[20px] pb-4 w-full" />
+              <div class="font-bold text-[16px] pb-2">{{ item.title }}</div>
+              <div class="flex">
+                <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" v-for="value in item.evaluate"
+                  :key="value" />
+              </div>
+              <div class="font-bold text-2xl">$120</div>
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
 </template>
+
 
 <script setup>
 import Breadcrumb from '~/component/breadcrumb/breadcrumb.vue';
-import ProductCardContainer from '~/component/product-card/product-card-container.vue';
+import RangeSlider from '../../../component/range-slider/range-slider.vue';
+import ImgCard1 from '@/assets/images/itemCard.png'
+import ImgCard2 from '@/assets/images/itemCard2.png'
+import ImgCard3 from '@/assets/images/itemCard3.png'
+import ImgCard4 from '@/assets/images/itemCard4.png'
+import Categories from '~/component/categories/categories.vue';
 
-const data = ref([])
-const itemFilter = ['All', 'Sale', 'Popular', 'Expensive', 'Cheap']
-const activeKey = ref(0)
-const valueFilter = ref({})
-const maxFilter = ref(false)
-const minFilter = ref(false)
+const itemsColor = ["#00C12B", "#F50606", "#F5DD06", "#F57906", "#06CAF5", "#063AF5", " #7D06F5", "#F506A4", "#FFFFFF", "#000000"]
+const itemsSize = ["XX-Small", "X-Small", "Small", "Medium", "Large", "X-Large", "XX-Large", "3X-Large", "4X-Large"]
 
-onMounted(async () => {
-  const response = await $fetch(`https://fakestoreapi.in/api/products`, {
-    method: 'GET',
-  })
-  data.value = response.products
-})
-
-const handleActive = (key, item) => {
-  const formatLowCase = item.toLowerCase()
-  activeKey.value = key
-
-  const filters = {
-    sale: () => ({ onSale: true }),
-    popular: () => ({ popular: true }),
-    expensive: () => (maxFilter.value = true),
-    cheap: () => (minFilter.value = true),
-  };
-
-  minFilter.value = false;
-  maxFilter.value = false;
-
-  valueFilter.value = filters[formatLowCase] ? filters[formatLowCase]() : {};
-}
-
-
+const itemsCard = [
+  {
+    img: ImgCard1,
+    title: "VERTICAL STRIPED SHIRT",
+    evaluate: 4
+  },
+  {
+    img: ImgCard2,
+    title: "COURAGE GRAPHIC T-SHIRT",
+    evaluate: 4
+  },
+  {
+    img: ImgCard3,
+    title: "LOOSE FIT BERMUDA SHORTS",
+    evaluate: 4
+  },
+  {
+    img: ImgCard4,
+    title: "FADED SKINNY JEANS",
+    evaluate: 4
+  },
+  {
+    img: ImgCard1,
+    title: "VERTICAL STRIPED SHIRT",
+    evaluate: 4
+  },
+  {
+    img: ImgCard2,
+    title: "COURAGE GRAPHIC T-SHIRT",
+    evaluate: 4
+  },
+  {
+    img: ImgCard3,
+    title: "LOOSE FIT BERMUDA SHORTS",
+    evaluate: 4
+  },
+  {
+    img: ImgCard4,
+    title: "FADED SKINNY JEANS",
+    evaluate: 4
+  },
+  {
+    img: ImgCard1,
+    title: "VERTICAL STRIPED SHIRT",
+    evaluate: 4
+  },
+]
 </script>
