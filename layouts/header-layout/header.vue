@@ -20,11 +20,9 @@ const countItem = ref(0)
 
 onMounted(() => {
   cart.value = JSON.parse(localStorage.getItem('cart')) || []
-console.log(cart.value)
 })
 
 watch(cart, (newCart) => {
-  console.log(newCart)
   countItem.value = newCart.length
 }, { deep: true })
 

@@ -8,7 +8,7 @@ import ImgShoes from '@/assets/images/shoes.jpg'
 
 <template>
   <div class="w-full flex flex-col items-center justify-center pt-[103px] pb-[127px]">
-    <div class="max-w-96 md:max-w-[78rem] w-full bg-[#F0F0F0] rounded-[40px] pt-[70px] pb-1.5">
+    <div class="max-w-96 md:max-w-[78rem] w-full bg-[#F0F0F0] rounded-[40px] pt-[70px] pb-5">
       <h1 class="font-bold text-[48px] text-center pb-[64px] uppercase">Shop by Category </h1>
       <div class="flex flex-col gap-5">
         <div class="flex justify-center items-center gap-5 px-[30px]">

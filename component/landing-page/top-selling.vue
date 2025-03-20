@@ -1,21 +1,19 @@
 <template>
-  <ProductCardContainer title="Top Selling" :data="data" :onLoadMore="handleLoadMore"/>
+  <ProductCardContainer title="Top Selling" :data="dataProducts" :onLoadMore="handleLoadMore"/>
 </template>
 
 <script setup>
+import { apiConfig } from '~/constants/api';
 import ProductCardContainer from '../product-card/product-card-container.vue';
 
-const data = ref([])
+const dataProducts = ref([])
 const lengthData = ref(0)
 const limitInit = ref(8)
 
-
 const getProductsWithByDiscount = async() => {
-  const response = await $fetch(`https://dummyjson.com/products?sortBy=discountPercentage&limit=${limitInit.value}`, {
-    method: 'GET',
-  })
-  data.value = response
-  lengthData.value = response.total
+  const {data} = await apiFetch(`${apiConfig.product.getList}?sortBy=discountPercentage&limit=${limitInit.value}`)
+  dataProducts.value = data.value
+  lengthData.value = data.value.total
 }
 
 getProductsWithByDiscount();

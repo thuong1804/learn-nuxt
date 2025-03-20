@@ -1,20 +1,19 @@
 <template>
-  <ProductCardContainer title="Top Popular" :data="data" :onLoadMore="handleLoadMore"/>
+  <ProductCardContainer title="Top Popular" :data="dataProducts" :onLoadMore="handleLoadMore"/>
 </template>
 
 <script setup>
+import { apiConfig } from '~/constants/api';
 import ProductCardContainer from '../product-card/product-card-container.vue';
 
-const data = ref([])
+const dataProducts = ref([])
 const lengthData = ref(0)
 const limitInit = ref(8)
 
 const getProductsWithByRating = async() => {
-  const response = await $fetch(`https://dummyjson.com/products?sortBy=rating&limit=${limitInit.value}`, {
-    method: 'GET',
-  })
-  data.value = response
-  lengthData.value = response.total
+  const {data} = await apiFetch(`${apiConfig.product.getList}?sortBy=rating&limit=${limitInit.value}`)
+  dataProducts.value = data.value
+  lengthData.value = data.value.total
 }
 getProductsWithByRating();
 

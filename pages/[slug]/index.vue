@@ -15,12 +15,11 @@
               <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
                 Sort by:
                 <div class="relative inline-block">
-                  <!-- Button Dropdown -->
                   <div @click="isOpen = !isOpen" class="text-black  font-bold rounded-lg text-xl">
                     Filter
                   </div>
                   <div v-show="isOpen"
-                    class="absolute mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
+                    class="absolute z-[100] mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                       <li>
                         <a href="#"
