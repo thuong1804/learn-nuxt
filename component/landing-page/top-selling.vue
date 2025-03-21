@@ -19,7 +19,6 @@ const getProductsWithByDiscount = async() => {
 getProductsWithByDiscount();
 
 const handleLoadMore = async() => {
-  console.log(limitInit.value, lengthData.value)
   if (limitInit.value < lengthData.value) {
     limitInit.value += 8
     await getProductsWithByDiscount()
