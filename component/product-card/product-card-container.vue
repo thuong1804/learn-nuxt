@@ -11,9 +11,7 @@
       <div class="animate-pulse bg-gray-200 border border-[#f0eeed] rounded-[20px] px-4 py-4 w-full max-w-[300px] h-[300px]" 
       v-for="item in itemLoading" :key="item"/>
     </div>
-    <Button v-if="onLoadMore" @click="onLoadMore" class="cursor-pointer w-[218px] h-[52px] rounded-[62px] text-[16px]">
-      Load More
-    </Button>
+    <Button v-if="onLoadMore" @click="onLoadMore" class="cursor-pointer w-[218px] h-[52px] rounded-[62px] text-[16px]" title="Load More"/>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-  <NuxtLink :to="`/product/${item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}-p-${item.id}`" class="flex flex-col items-start"
+  <NuxtLink :to="`/product/${formatSlugUrl(item.title)}-p-${item.id}`" class="flex flex-col items-start gap-2"
     v-for="item in itemProducts">
-    <div class="border border-[#f0eeed]  rounded-[20px] px-4 py-4 w-full max-w-[300px]">
+    <div class="border border-[#f0eeed]  rounded-[20px] px-4 py-4 w-full max-w-[300px] shadow-sm">
       <img :src="item.images[0]" class="w-full h-[300px] min-h-[300px] transition-all  hover:scale-105 object-contain" />
     </div>
-    <div class="font-bold text-[16px] pb-2">{{ item.title }}</div>
-    <div class="font-bold text-[16px] pb-2">{{ item.brand }}</div>
+    <div class="font-bold text-[16px]">{{ item.title }}</div>
+    <div class="font-bold text-[16px]">{{ item.brand }}</div>
     <div class="flex">
       <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" v-for="value in item.evaluate"
         :key="value" />

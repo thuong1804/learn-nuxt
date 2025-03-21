@@ -8,8 +8,8 @@
         </div>
         <div class="flex-1">
           <div class="flex items-center justify-between pb-4">
-            <h1 class="font-bold text-[32px] uppercase">
-              {{ nameCategory }}
+            <h1 class="font-bold text-[32px]">
+              {{ formatTextSlug(nameCategory)}}
             </h1>
             <div class="flex items-center gap-3 text-[#00000099]">
               <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
@@ -33,7 +33,6 @@
                     </ul>
                   </div>
                 </div>
-                <!-- <b class="text-black">Most Popular</b> -->
                 <Icon name="material-symbols:keyboard-arrow-down-rounded" style="color: #000000" class="text-[20px]" />
               </div>
             </div>
@@ -58,15 +57,23 @@ const data = ref([])
 const lengthData = ref(0)
 const nameCategory = ref('')
 
-const getProductsWithByCategory = async () => {
-  const response = await $fetch(`https://dummyjson.com/products/category/${slug}`, {
-    method: 'GET',
-  })
-  data.value = response
-  lengthData.value = response.total
-  nameCategory.value = response.products.find(item => item.category === slug).category
+const getProductsWithByCategory = (slug) => {
+
+  if (slug === 'sale') {
+    return 'https://dummyjson.com/products?sortBy=price&order=desc&limit=9';
+  }
+  if (slug === 'popular') {
+    return 'https://dummyjson.com/products?sortBy=discountPercentage&order=desc&limit=9';
+  }
+  return `https://dummyjson.com/products/category/${slug}?limit=9`
 }
-getProductsWithByCategory();
 
+const fetchData = async() => {
+  const response = await $fetch(getProductsWithByCategory(slug), { method: 'GET' });
+  data.value = response;
+  lengthData.value = response.total;
+  nameCategory.value = slug === 'sale' ? 'Sale' : slug === 'popular' ? 'Popular' : response.products?.[0]?.category || slug;
+}
 
+fetchData()
 </script>

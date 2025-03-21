@@ -1,5 +1,5 @@
 <template>
-  <Carousel class="pb-[150px]" :itemsToShow="3" :wrapAround="true" :breakpoints="breakpoints" gap="20">
+  <Carousel class="pb-[150px]" :itemsToShow="3" :wrapAround="true" :breakpoints="breakpoints" :gap="20">
     <template #slides>
       <Slide v-for="(item, index) in data" :key="index">
         <div class="flex flex-col rounded-[20px] border border-[#0000001A] py-7 px-8 gap-4 h-[200px] w-full">
@@ -21,8 +21,8 @@
 <script setup>
 import { Carousel, Slide } from 'vue3-carousel'
 
-// const {data} = useFetch('/api/comments')
-// console.log(data)
+const {data} = useFetch('/api/comments')
+
 const breakpoints = {
   640: { itemsToShow: 1 },
   1024: { itemsToShow: 2 },
