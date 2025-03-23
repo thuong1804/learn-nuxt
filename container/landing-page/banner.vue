@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import Button from '../button/button.vue';
+import Button from '~/component/button/button.vue';
 
 const handleClickButton = () => {
   navigateTo('/shop')

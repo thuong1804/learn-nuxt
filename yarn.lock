@@ -556,7 +556,7 @@
     std-env "^3.8.1"
     tinyglobby "^0.2.12"
 
-"@nuxt/kit@^3.12.4", "@nuxt/kit@^3.13.2", "@nuxt/kit@^3.15.2", "@nuxt/kit@^3.15.4", "@nuxt/kit@^3.16.0", "@nuxt/kit@3.16.0":
+"@nuxt/kit@^3.12.4", "@nuxt/kit@^3.13.2", "@nuxt/kit@^3.14.159", "@nuxt/kit@^3.15.2", "@nuxt/kit@^3.15.4", "@nuxt/kit@^3.16.0", "@nuxt/kit@3.16.0":
   version "3.16.0"
   resolved "https://registry.npmjs.org/@nuxt/kit/-/kit-3.16.0.tgz"
   integrity sha512-yPfhk58BG6wJhELkGOTCOlkMDbZkizk3IaINcyTKm+hBKiK3SheLt7S9HStNL+qZSfH2Cf7A8sYp6M72lOIEtA==
@@ -3379,6 +3379,13 @@ nth-check@^2.0.1:
   dependencies:
     boolbase "^1.0.0"
 
+nuxt-time@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/nuxt-time/-/nuxt-time-1.0.3.tgz"
+  integrity sha512-aD5Yv18IIKX08ED9B+Hd2rSDewcV40qNxUursdtJFaKFhLLZWPQF8TR2d/P523erPlqht2OvxSN3iyGhUJJy/g==
+  dependencies:
+    "@nuxt/kit" "^3.14.159"
+
 nuxt-toast@^1.1.4:
   version "1.1.4"
   resolved "https://registry.npmjs.org/nuxt-toast/-/nuxt-toast-1.1.4.tgz"
@@ -3386,7 +3393,7 @@ nuxt-toast@^1.1.4:
   dependencies:
     "@nuxt/kit" "^3.15.2"
 
-nuxt@^3.16.0:
+nuxt@^3.16.0, nuxt@>=3.12.0:
   version "3.16.0"
   resolved "https://registry.npmjs.org/nuxt/-/nuxt-3.16.0.tgz"
   integrity sha512-4j2tuHo+kcComQ1WrCD+i1w3UFOHrcnNH30cwiEY/WZZlBZOlC6DtUm6aBjhfpBFaMYsF4PbyKsNW+7FHwckHA==
@@ -5042,6 +5049,13 @@ vue3-carousel@^0.13.0:
   version "0.13.0"
   resolved "https://registry.npmjs.org/vue3-carousel/-/vue3-carousel-0.13.0.tgz"
   integrity sha512-vio91KI4mVMlCDbVhGzW9nIyYqxu0moqroPR/OrJeaCvAK3SJYxqvH36a4/t1oEJYJsTgh+IuNiNi6c+7DVKZg==
+
+vue3-star-ratings@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/vue3-star-ratings/-/vue3-star-ratings-3.0.5.tgz"
+  integrity sha512-V5k/T/7JoEq1VxhtJr1bVdDT181PqbSYMqhyj4myuMFBYXZ2f7bzAcmwFGEkoMmcIg3IVEhroBPUVtPQ4anQDQ==
+  dependencies:
+    vue "^3.3.4"
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

@@ -4,7 +4,7 @@
 
 <script setup>
 import { apiConfig } from '~/constants/api';
-import ProductCardContainer from '../product-card/product-card-container.vue';
+import ProductCardContainer from '~/component/product-card/product-card-container.vue';
 
 const dataProducts = ref([])
 const lengthData = ref(0)

@@ -4,7 +4,7 @@
       <!-- <Breadcrumb /> -->
     </div>
     <DetailProduct :item="data"/>
-    <TabsDetailProduct />
+    <TabsDetailProduct :item="data"/>
     <YouMightAlsoLike />
   </div>
 </template>
@@ -12,17 +12,20 @@
 <script setup>
 
 import authMiddleware from "@/middleware/auth";
-import Breadcrumb from '~/component/breadcrumb/breadcrumb.vue';
-import DetailProduct from '~/component/product/detail-product.vue';
-import TabsDetailProduct from '~/component/product/tabs-detail-product.vue';
-import YouMightAlsoLike from '~/component/product/you-might-also-like.vue';
+import DetailProduct from "~/container/product/detail-product.vue";
+import TabsDetailProduct from '~/container/product/tabs-detail-product.vue';
+import YouMightAlsoLike from '~/container/product/you-might-also-like.vue';
 
 definePageMeta({
   middleware: authMiddleware
 });
-const router = useRouter()
 
-const data = ref([])
+const route = useRoute()
+const id = route.params.slug.split("-p-").pop()
+
+const {data} = await useFetch(`/api/product/${id}/product-detail`, {server: true})
+console.log(data.value)
+
 
 
 </script>

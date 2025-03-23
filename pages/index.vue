@@ -1,10 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'auth' })
-import Banner from '~/component/landing-page/banner.vue';
-import Popular from '~/component/landing-page/popular.vue';
-import TopSelling from '~/component/landing-page/top-selling.vue';
-import ShopCategory from '~/component/landing-page/shop-category.vue';
-import ReviewCustomer from '~/component/landing-page/review-customer.vue';
+import Banner from '~/container/landing-page/banner.vue';
+import Popular from '~/container/landing-page/popular.vue';
+import TopSelling from '~/container/landing-page/top-selling.vue';
+import ShopCategory from '~/container/landing-page/shop-category.vue';
+import ReviewCustomer from '~/container/landing-page/review-customer.vue';
 </script>
 
 <template>

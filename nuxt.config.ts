@@ -23,5 +23,6 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     'nuxt-toast',
     'vue3-carousel-nuxt',
+    'nuxt-time',
   ],
 })
