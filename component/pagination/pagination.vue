@@ -1,22 +1,27 @@
 <template>
-  <div class="w-full">
+  <div class="w-full flex justify-center items-center">
     <VueAwesomePaginate
-    v-model="currentPage"
-    :total-items="totalItems"
-    :items-per-page="limit"
-    :max-pages-shown="5"
+      v-model="currentPage"
+      :total-items="totalItems"
+      :items-per-page="limit"
+      :max-pages-shown="5"
+      @click="handleClickPage"
   />
   </div>
 </template>
 
 <script setup>
-const emit = defineEmits(["page-change"]);
 const currentPage = defineModel();
 
 const props = defineProps({
   totalItems: Number,
   limit: Number,
 });
+const emit = defineEmits(['onClickPage'])
+
+const handleClickPage = (page) => {
+  emit("onClickPage", page)
+}
 
 </script>
 

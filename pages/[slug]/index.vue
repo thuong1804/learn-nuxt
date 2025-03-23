@@ -15,7 +15,7 @@
               <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
                 Sort by:
                 <div class="relative inline-block">
-                  <div @click="isOpen = !isOpen" class="text-black  font-bold rounded-lg text-xl menu-container">
+                  <div @click="isOpen = !isOpen" class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
                     {{ slugFilter.name }}
                   </div>
                   <div v-show="isOpen"
@@ -35,7 +35,7 @@
           </div>
           <ProductCardContainer :data="data" :column="3" />
           <div class="w-full">
-            <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" />
+            <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" @on-click-page="handlePage"/>
           </div>
         </div>
       </div>
@@ -56,8 +56,9 @@ const isOpen = ref(false);
 const data = ref([])
 const lengthData = ref(0)
 const totalItems = ref(0);
-const limit = 8;
+const limit = ref(9);
 const pageRef = ref(0)
+const skip = ref(0)
 
 const slugFilter = reactive({
   name: 'Most popular',
@@ -77,7 +78,8 @@ const itemFilter = [
   },
 ]
 
-const onClickHandler = (page) => {
+const handlePage = (page) => {
+  console.log(page)
   pageRef.value = page
 };
 
@@ -104,64 +106,35 @@ const handelFilterItem = (slug, name) => {
 const getProductsWithByCategory = (slug, skip) => {
 
   if (slug === 'sale') {
-    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'rating' : 'price'}&order=desc&limit=${limit}&skip=${skip}`;
+    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'rating' : 'price'}&order=desc&limit=${limit.value}&skip=${skip}`;
   }
   if (slug === 'popular') {
-    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'price' : 'rating'}&order=desc&limit=${limit}&skip=${skip}`;
+    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'price' : 'rating'}&order=desc&limit=${limit.value}&skip=${skip}`;
   }
-  return `https://dummyjson.com/products/category/${slug}?limit=${limit}&sortBy=${slugFilter.slug}&skip=${skip}`
+  return `https://dummyjson.com/products/category/${slug}?limit=${limit.value}&sortBy=${slugFilter.slug}&order=desc&skip=${skip}`
 }
 
 const fetchData = async() => {
-  const skip = (pageRef - 1) * limit;
-
-  const response = await $fetch(getProductsWithByCategory(slug, skip), { method: 'GET' });
+  const response = await $fetch(getProductsWithByCategory(slug, skip.value), { method: 'GET' });
   data.value = response;
   lengthData.value = response.total;
+  totalItems.value = response.total
   nameCategory.value = slug === 'sale' ? 'Sale' : slug === 'popular' ? 'Popular' : response.products?.[0]?.category || slug;
 }
 
 watch(() => slugFilter.slug, fetchData)
+watch(pageRef, (newPage, oldPage) => {
+  if (oldPage !== undefined) {
+    const newSkip = (newPage - 1) * limit.value;
+    if (newSkip >= totalItems.value) {
+      console.warn("Reached end of data, adjusting skip.");
+      skip.value = totalItems.value - limit.value;
+    } else {
+      skip.value = newSkip;
+    }
+    fetchData();
+  }
+});
 
 fetchData()
 </script>
-
-<style>
-  .pagination-container {
-    display: flex;
-
-    column-gap: 10px;
-  }
-
-  .paginate-buttons {
-    height: 40px;
-
-    width: 40px;
-
-    border-radius: 20px;
-
-    cursor: pointer;
-
-    background-color: rgb(242, 242, 242);
-
-    border: 1px solid rgb(217, 217, 217);
-
-    color: black;
-  }
-
-  .paginate-buttons:hover {
-    background-color: #d8d8d8;
-  }
-
-  .active-page {
-    background-color: #3498db;
-
-    border: 1px solid #3498db;
-
-    color: white;
-  }
-
-  .active-page:hover {
-    background-color: #2988c8;
-  }
-</style>

@@ -2,8 +2,8 @@
   <ClientOnly>
     <VueSlider
       v-model="value"
-      :minRange="100" min="0"
-      max="300"
+      :minRange="100" :min="0"
+      :max="300"
       :dotStyle="{ backgroundColor: 'black' }"
       tooltip="always"
       tooltipPlacement="bottom"

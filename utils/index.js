@@ -21,7 +21,7 @@ const getApiUrl = (path) => {
 };
 
 export const apiFetch = async (endpoint, method = 'GET', options) => {
-  return useFetch(getApiUrl(endpoint), {
+  return $fetch(getApiUrl(endpoint), {
     method: method,
     ...options,
   });
