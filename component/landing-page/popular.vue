@@ -11,9 +11,9 @@ const lengthData = ref(0)
 const limitInit = ref(8)
 
 const getProductsWithByRating = async() => {
-  const {data} = await apiFetch(`${apiConfig.product.getList}?sortBy=rating&limit=${limitInit.value}`)
-  dataProducts.value = data.value
-  lengthData.value = data.value.total
+  const dataResponse = await apiFetch(`${apiConfig.product.getList}?sortBy=rating&limit=${limitInit.value}`)
+  dataProducts.value = dataResponse
+  lengthData.value = dataResponse.total
 }
 getProductsWithByRating();
 
