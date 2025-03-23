@@ -2,7 +2,7 @@
   <div class="flex max-w-96 md:max-w-[78rem] w-full items-start  h-max">
     <div class="flex flex-col gap-3.5 pr-3.5 w-1/5 ">
       <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(1) : item?.images)"
-        :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105', imgActive.key === index ? 'border-gray-600 border' : 'border-gray-200 border']"
+        :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-600 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
         <img :src="img" class="w-full h-[168px] object-contain" />
       </div>
