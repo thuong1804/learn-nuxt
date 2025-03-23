@@ -5,9 +5,6 @@
           class="text-black/60 text-sm font-normal">({{ items.length }})</span></div>
       <div>
         <div class="flex justify-start items-start gap-2.5">
-          <div class="w-12 h-12 bg-[#efefef] rounded-[62px] flex justify-center items-center">
-            <Icon name="mage:filter" style="color: black" class="text-[20px]" />
-          </div>
           <div class="w-[120px] h-12 px-5 py-4 bg-[#efefef] rounded-[62px] flex justify-between items-center">
             <div class="justify-start text-black text-base font-medium">Latest</div>
             <Icon name="material-symbols:arrow-downward" style="color: black" class="text-[20px]" />
