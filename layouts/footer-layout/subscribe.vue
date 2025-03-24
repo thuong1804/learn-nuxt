@@ -11,9 +11,8 @@
         <input type="email" placeholder="Enter your email address"
           class="w-full pl-12 pr-4 py-3 bg-[#F0F0F0] rounded-[62px] text-black/40 text-base font-normal  focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
-      <div
-        class="w-[349px] px-4 py-3 bg-white rounded-[62px] inline-flex justify-center items-center gap-3 overflow-hidden">
-        <div class="justify-start text-black text-base font-medium ">Subscribe to Newsletter</div>
+      <div class="w-[349px]">
+        <button class="bg-white rounded-[62px]  px-4 py-3  w-full flex justify-center items-center text-black text-base font-medium transition cursor-pointer active:scale-95">Subscribe to Newsletter</button>
       </div>
     </div>
   </div>

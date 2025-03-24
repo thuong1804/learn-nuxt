@@ -9,9 +9,7 @@
             <div class="justify-start text-black text-base font-medium">Latest</div>
             <Icon name="material-symbols:arrow-downward" style="color: black" class="text-[20px]" />
           </div>
-          <div class="w-[166px] h-12 px-5 py-4 bg-black rounded-[62px] flex justify-center items-center text-white">
-            Write a Review
-          </div>
+          <Button class="w-[166px rounded-[62px]" title="Write a Review"/>
         </div>
       </div>
     </div>

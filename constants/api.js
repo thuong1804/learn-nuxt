@@ -4,5 +4,5 @@ export const apiConfig = {
     productCategory: '/products/categories',
     productListCategory: '/products/category-list',
     productByCategory: (slug) => `/products/category/${slug}`
-  }
+  },
 }
