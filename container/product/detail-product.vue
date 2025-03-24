@@ -1,22 +1,22 @@
 <template>
-  <div class="flex max-w-96 md:max-w-[78rem] w-full items-start  h-max">
-    <div class="flex flex-col gap-3.5 pr-3.5 w-1/5 ">
+  <div class="flex max-w-96 md:max-w-[78rem] w-full items-start h-[540px] max-h-max">
+    <div class="flex flex-col pr-3.5 w-1/5 h-full justify-between">
       <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(1) : item?.images)"
-        :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105', imgActive.key === index ? 'border-gray-600 border' : 'border-gray-200 border']"
+        :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-500 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
-        <img :src="img" class="w-full h-[168px] object-contain" />
+        <img :src="img" class="w-full h-[150px] object-contain" />
       </div>
     </div>
-    <div class="pr-10 w-[444px]">
-      <img :src="imgActive.value" class="w-full h-[530px] rounded-[20px] shadow-sm object-contain" />
+    <div class="pr-10 w-[444px] h-full">
+      <ImageZoom :image-src="imgActive.value"/>
     </div>
-    <div class="flex flex-col -mt-5 max-w-[600px]">
-      <h1 class="font-bold text-[40px] uppercase">{{ item.title }}</h1>
+    <div class="flex flex-col max-w-[600px] h-full justify-between">
+      <h1 class="font-bold text-[40px] uppercase leading-[40px]">{{ item.title }}</h1>
       <div class="flex gap-2 pt-2 pb-2">
         <vue3starRatings v-model="item.rating" disableClick />
         {{ item.rating }}/<span class="text-[#00000066] -ml-1">5</span>
       </div>
-      <div class="font-bold text-2xl flex items-center gap-2.5 pb-5">
+      <div class="font-bold text-2xl flex items-center gap-2">
         <div v-if="item.discountPercentage && item.discountPercentage > 1" class="flex gap-2 items-center">
           <div class="text-[25px]">${{ calculateTotalDiscount(item).toFixed(2) }}</div>
           <div class="justify-center text-black/30 text-[25px] font-bold line-through">
@@ -72,14 +72,15 @@
 <script setup>
 import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
+import ImageZoom from '~/component/image-zoom/image-zoom.vue';
 
 const props = defineProps({
   item: { type: Object, required: true }
 })
 
 const imgActive = reactive({
-  value: String,
-  key: Number,
+  value: '',
+  key: 0,
 })
 
 onMounted(() => {

@@ -31,6 +31,6 @@
 import Button from '~/component/button/button.vue';
 
 const handleClickButton = () => {
-  navigateTo('/shop')
+  navigateTo('/sale')
 }
 </script>

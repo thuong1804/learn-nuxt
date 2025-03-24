@@ -28,7 +28,7 @@
       <div class="text-base font-normal text-[#00000066] pb-4">Return Policy: <b> {{ item.returnPolicy }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">Shipping Information: <b> {{ item.shippingInformation }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">Warranty Information: <b> {{ item.warrantyInformation }}</b></div>
-      <div class="text-base font-normal text-[#00000066] pb-4">SKU: <b> {{ item.sku }}</b></div>
+      <div class="text-base font-normal text-[#00000066] pb-4">SKU: <b> {{ item?.sku }}</b></div>
       <div class="flex  items-center gap-1 text-base font-normal text-[#00000066] pb-4" >Tag:
         <b>{{ item.tags.join(', ')}}</b>
       </div>

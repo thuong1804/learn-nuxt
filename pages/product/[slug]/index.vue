@@ -3,8 +3,8 @@
     <div class="max-w-96 md:max-w-[78rem] w-full">
       <!-- <Breadcrumb /> -->
     </div>
-    <DetailProduct :item="data"/>
-    <TabsDetailProduct :item="data"/>
+    <DetailProduct v-if="data" :item="data"/>
+    <TabsDetailProduct :item="data" v-if="data"/>
     <MoreProduct />
   </div>
 </template>

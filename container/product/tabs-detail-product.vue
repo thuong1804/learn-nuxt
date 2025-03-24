@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-96 md:max-w-[78rem] w-full flex pt-[80px] justify-between">
-    <div class="flex flex-col gap-6 w-full" v-for="(tab, index) in tabs" @click="handleActiveTab(index)">
+    <div class="flex flex-col gap-6 w-full cursor-pointer" v-for="(tab, index) in tabs" @click="handleActiveTab(index)">
       <div :class="['text-center justify-start  text-xl font-medium leading-snug', activeTab === index ? 'text-black' : 'text-black/60']">{{ tab }}</div>
       <transition name="slide-fade" mode="out-in" type="transition">
         <div
@@ -11,11 +11,11 @@
       </transition>
     </div>
   </div>
-  <div v-if="activeTab === 0" class="max-w-96 md:max-w-[78rem] w-full pt-8">
+  <div v-if="activeTab === 0 && item" class="max-w-96 md:max-w-[78rem] w-full pt-8">
     <ProductDescription :item="item"/>
   </div>
   <div v-else class="max-w-96 md:max-w-[78rem] w-full pt-8">
-    <ReviewProduct :items="item.reviews"/>
+    <ReviewProduct :items="item.reviews" v-if="item.reviews"/>
   </div>
 
 </template>

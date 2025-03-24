@@ -79,7 +79,6 @@ const itemFilter = [
 ]
 
 const handlePage = (page) => {
-  console.log(page)
   pageRef.value = page
 };
 
