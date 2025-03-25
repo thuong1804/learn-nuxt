@@ -33,6 +33,6 @@ const emit = defineEmits(['handleLoadMore'])
 
 watch(() => props.data, (newData) => {
   dataProducts.value = newData.products
-}, { deep: true })
+}, { deep: true})
 
 </script>

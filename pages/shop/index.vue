@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-96 md:max-w-[78rem] my-0 mx-auto pb-[150px]">
-    <div v-if="!isNotFound">
+    <div v-if="dataProducts">
       <h1 v-if="slug" class="text-2xl">Search result: {{ slug }}</h1>
       <div class="w-full flex items-center justify-end gap-3 text-[#00000099]">
         <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
@@ -8,7 +8,7 @@
           <div class="relative inline-block">
             <div @click="isOpen = !isOpen"
               class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
-              {{ slugFilter.name }}
+              {{ itemFilterRef.name }}
             </div>
             <div v-show="isOpen"
               class="absolute z-[100] mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
@@ -36,7 +36,6 @@
 
 <script setup>
 import ProductCardContainer from '~/component/product-card/product-card-container.vue';
-import { apiConfig } from '~/constants/api';
 import NotFound from '~/component/not-found/not-found.vue';
 import Pagination from '~/component/pagination/pagination.vue';
 
@@ -45,12 +44,10 @@ const slug = computed(() => route.query.search);
 const dataProducts = ref([])
 const totalItems = ref(0);
 const limitInit = ref(16)
-const isNotFound = ref(false)
 const currentPage = ref(1);
 const pageRef = ref(0)
 const skip = ref(0)
 const isOpen = ref(false);
-
 
 const itemFilter = [
   {
@@ -62,15 +59,14 @@ const itemFilter = [
     slug: 'price',
   },
 ]
-const slugFilter = reactive({
+const itemFilterRef = reactive({
   name: 'Most popular',
   slug: 'rating'
 })
 
 const handelFilterItem = (slug, name) => {
-  console.log(name, slug)
-  slugFilter.name = name
-  slugFilter.slug = slug
+  itemFilterRef.name = name
+  itemFilterRef.slug = slug
 }
 
 onMounted(() => {
@@ -80,7 +76,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', closeMenu)
 })
-
 
 const closeMenu = (event) => {
   if (!event.target.closest('.menu-container')) {
@@ -92,41 +87,43 @@ const handlePage = (page) => {
   pageRef.value = page
 };
 
-const getProductsWithByRating = (slug, filter) => {
-  if (slug) {
-    return `${apiConfig.product.productBySearch(slug)}&limit=${limitInit.value}&skip=${skip.value}`
+const fetchData = async (newSlug, sortItem) => {
+  const response = await $fetch(newSlug ? '/api/product/search' : '/api/product/getList', {
+    query: {
+      limit: limitInit.value,
+      skip: skip.value,
+      ...(sortItem ? { sortBy: sortItem } : {}),
+      ...(newSlug ? { q: newSlug } : {}),
+      order: 'asc',
+    }
+  });
+ if (!response || response.total === 0) {
+    dataProducts.value = null;
+    totalItems.value = 0;
   } else {
-    return `${apiConfig.product.getList}?limit=${limitInit.value}&skip=${skip.value}&sortBy=${filter}&order=asc`
+    dataProducts.value = response;
+    totalItems.value = response.total;
   }
-}
-const fetchData = async (slug, filter) => {
-  const dataResponse = await apiFetch(getProductsWithByRating(slug, filter))
-  dataProducts.value = dataResponse
-  totalItems.value = dataResponse.total
-}
+};
 
 watch(slug, (newSlug) => {
+    currentPage.value = 1
+    skip.value = 0
   if (newSlug) {
-    fetchData(newSlug);
+    fetchData(newSlug)
   } else {
-    fetchData();
+    fetchData()
   }
-}, { immediate: true });
+}, { immediate: true , deep: true})
 
-watch(
-  () => slugFilter.slug,
-  (newSlug) => {
-    fetchData(null, newSlug);
-  },
-);
-
-watch(dataProducts, (newData) => {
-  if (!newData?.length < 1 || newData?.products?.length < 1) {
-    isNotFound.value = true
-  } else {
-    isNotFound.value = false
-  }
-},{ immediate: true })
+watch(() => itemFilterRef.slug,
+  (itemChange) => {
+    if (itemChange) {
+      currentPage.value = 1
+      skip.value = 0
+      fetchData(null, itemChange)
+    }
+}, {deep: true});
 
 watch(pageRef, (newPage, oldPage) => {
   if (oldPage !== undefined) {
@@ -136,7 +133,7 @@ watch(pageRef, (newPage, oldPage) => {
     } else {
       skip.value = newSkip;
     }
-    fetchData();
+    fetchData(null, null);
   }
 });
 
