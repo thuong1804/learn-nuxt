@@ -62,6 +62,12 @@ watch(cart, (newCart) => {
 
 const handelLogout = () => {
   userToken.value = null
+  const assetsToken = useCookie('userToken')
+  const refreshToken = useCookie('refreshToken')
+
+  assetsToken.value = null
+  refreshToken.value = null
+
   navigateTo('/auth/signin')
 }
 </script>

@@ -74,6 +74,7 @@ import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
 import ImageZoom from '~/component/image-zoom/image-zoom.vue';
 
+
 const props = defineProps({
   item: { type: Object, required: true }
 })
@@ -81,6 +82,12 @@ const props = defineProps({
 const imgActive = reactive({
   value: '',
   key: 0,
+})
+
+const cartStore = useCartStore()
+
+onMounted(() => {
+  cartStore.loadCart()
 })
 
 onMounted(() => {
@@ -94,24 +101,24 @@ const handleClickImg = (img, index) => {
   imgActive.key = index
 }
 
-const quantity = ref(1)
-
 const calculateTotalDiscount = ((item) => {
   const calculatePercentage = item.price * (item.discountPercentage / 100)
   return item.price - calculatePercentage
 })
 
+// const handleAddToCart = async (item) => {
+//   await $fetch('/api/cart/add-cart', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//       userId: profile.value.id,
+//       products: [{ id: item.id, quantity: quantity.value }]
+//     })
+//   })
+// }
+
 const handleAddToCart = (item) => {
-  let cart = JSON.parse(localStorage.getItem('cart')) || []
-  let existingItem = cart.find(value => value.id === item.id)
-
-  if (existingItem) {
-    existingItem.quantity = quantity.value;
-  } else {
-    cart.push({ ...item, quantity: quantity.value });
-  }
-
-  localStorage.setItem('cart', JSON.stringify(cart))
+  cartStore.addToCart(item)
 }
 
 defineComponent({

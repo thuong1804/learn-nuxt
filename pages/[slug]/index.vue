@@ -131,7 +131,6 @@ watch(pageRef, (newPage, oldPage) => {
   if (oldPage !== undefined) {
     const newSkip = (newPage - 1) * limit.value;
     if (newSkip >= totalItems.value) {
-      console.warn("Reached end of data, adjusting skip.");
       skip.value = totalItems.value - limit.value;
     } else {
       skip.value = newSkip;
