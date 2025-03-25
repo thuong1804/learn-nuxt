@@ -2,20 +2,21 @@
   <div class="w-full flex justify-center">
     <div class="max-w-96 md:max-w-[78rem] w-full">
       <Breadcrumb />
-      <div class="flex gap-5 pb-[300px]">
+      <div class="flex gap-5 pb-[300px]" v-if="!isNotFound">
         <div class="w-1/4">
           <Categories />
         </div>
         <div class="flex-1">
           <div class="flex items-center justify-between pb-4">
             <h1 class="font-bold text-[32px]">
-              {{ formatTextSlug(nameCategory)}}
+              {{ formatTextSlug(nameCategory) }}
             </h1>
             <div class="flex items-center gap-3 text-[#00000099]">
               <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
                 Sort by:
                 <div class="relative inline-block">
-                  <div @click="isOpen = !isOpen" class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
+                  <div @click="isOpen = !isOpen"
+                    class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
                     {{ slugFilter.name }}
                   </div>
                   <div v-show="isOpen"
@@ -24,7 +25,7 @@
                       <li v-for="item in itemFilter" @click="handelFilterItem(item.slug, item.name)">
                         <a href="#"
                           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                          item.name }}</a>
+                            item.name }}</a>
                       </li>
                     </ul>
                   </div>
@@ -35,9 +36,12 @@
           </div>
           <ProductCardContainer :data="data" :column="3" />
           <div class="w-full">
-            <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" @on-click-page="handlePage"/>
+            <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" @on-click-page="handlePage" />
           </div>
         </div>
+      </div>
+      <div v-else>
+        <NotFound/>
       </div>
     </div>
   </div>
@@ -48,6 +52,7 @@ import Breadcrumb from '~/component/breadcrumb/breadcrumb.vue';
 import Categories from '~/component/categories/categories.vue';
 import ProductCardContainer from '~/component/product-card/product-card-container.vue';
 import Pagination from '~/component/pagination/pagination.vue';
+import NotFound from '~/component/not-found/not-found.vue';
 
 const route = useRoute()
 const { slug } = route.params
@@ -59,7 +64,7 @@ const totalItems = ref(0);
 const limit = ref(9);
 const pageRef = ref(0)
 const skip = ref(0)
-
+const isNotFound = ref(false)
 const slugFilter = reactive({
   name: 'Most popular',
   slug: 'rating'
@@ -68,7 +73,7 @@ const slugFilter = reactive({
 const nameCategory = ref('')
 
 const itemFilter = [
-{
+  {
     name: 'Most popular',
     slug: 'rating',
   },
@@ -103,7 +108,6 @@ const handelFilterItem = (slug, name) => {
   slugFilter.slug = slug
 }
 const getProductsWithByCategory = (slug, skip) => {
-
   if (slug === 'sale') {
     return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'rating' : 'price'}&order=desc&limit=${limit.value}&skip=${skip}`;
   }
@@ -113,7 +117,7 @@ const getProductsWithByCategory = (slug, skip) => {
   return `https://dummyjson.com/products/category/${slug}?limit=${limit.value}&sortBy=${slugFilter.slug}&order=desc&skip=${skip}`
 }
 
-const fetchData = async() => {
+const fetchData = async () => {
   const response = await $fetch(getProductsWithByCategory(slug, skip.value), { method: 'GET' });
   data.value = response;
   lengthData.value = response.total;
@@ -122,6 +126,7 @@ const fetchData = async() => {
 }
 
 watch(() => slugFilter.slug, fetchData)
+
 watch(pageRef, (newPage, oldPage) => {
   if (oldPage !== undefined) {
     const newSkip = (newPage - 1) * limit.value;
@@ -134,6 +139,14 @@ watch(pageRef, (newPage, oldPage) => {
     fetchData();
   }
 });
+
+watch(data, (newData) => {
+  if (!newData?.products || newData?.products.length < 1) {
+    isNotFound.value = true
+  } else {
+    isNotFound.value = false
+  }
+})
 
 fetchData()
 </script>

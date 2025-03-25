@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <div class="max-w-96 md:max-w-[78rem] w-full">
-      <!-- <Breadcrumb /> -->
+      <Breadcrumb />
     </div>
     <DetailProduct v-if="data" :item="data"/>
     <TabsDetailProduct :item="data" v-if="data"/>
@@ -15,6 +15,7 @@ import authMiddleware from "@/middleware/auth";
 import DetailProduct from "~/container/product/detail-product.vue";
 import TabsDetailProduct from '~/container/product/tabs-detail-product.vue';
 import MoreProduct from "~/container/product/more-product.vue";
+import Breadcrumb from "~/component/breadcrumb/breadcrumb.vue";
 
 definePageMeta({
   middleware: authMiddleware

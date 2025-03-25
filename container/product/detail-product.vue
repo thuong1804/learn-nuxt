@@ -1,7 +1,7 @@
 <template>
   <div class="flex max-w-96 md:max-w-[78rem] w-full items-start h-[540px] max-h-max">
-    <div class="flex flex-col pr-3.5 w-1/5 h-full justify-between">
-      <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(1) : item?.images)"
+    <div class="flex flex-col pr-3.5 w-1/5 h-full justify-between gap-3">
+      <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(0,3) : item?.images)"
         :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-500 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
         <img :src="img" class="w-full h-[150px] object-contain" />
