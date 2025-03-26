@@ -1,15 +1,15 @@
 <template>
-  <button
-    :type="type"
-    :class="computedClass"
-    :disabled="loading || disabled"
-    @click="handleClick"
-  >
-    <slot v-if="!loading">{{ title }}</slot>
+  <button :type="type" :class="computedClass" :disabled="loading || disabled" @click="handleClick">
+    <span v-if="loading" class="flex items-center justify-center gap-2">
+      <Icon name="line-md:loading-twotone-loop" class="text-[16px]" />
+      Loading...
+    </span>
+    <span v-else>{{ title }}</span>
   </button>
 </template>
 
 <script setup>
+import { Icon } from "#components";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -23,8 +23,8 @@ const props = defineProps({
 const emit = defineEmits(["click"]);
 
 const computedClass = computed(() => {
-  return `bg-black text-white py-[10px] px-[40px] font-bold rounded-[5px] transition cursor-pointer active:scale-95 ${
-    props.disabled || props.loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
+  return `bg-black text-white py-[10px] px-2 font-bold rounded-[5px] transition active:scale-95 flex items-center justify-center ${
+    props.disabled || props.loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800 cursor-pointer"
   } ${props.customClass}`;
 });
 

@@ -4,7 +4,7 @@
       <h1 class="text-[30px] font-bold text-center">Login</h1>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10" />
       <form class="flex flex-col gap-7" @submit="submitForm">
-        <Input v-model="email" type="email" placeholder="Email" :error="errors.email" :inputAttrs="emailAttrs" />
+        <Input v-model="username" type="text" placeholder="username" :error="errors.username" :inputAttrs="usernameAttrs" />
         <Input v-model="password" type="password" placeholder="Password" :error="errors.password"
           :inputAttrs="passwordAttrs" />
         <Button type="submit" class="w-full rounded-[60px] text-[18px]"  title="Login" />
@@ -22,27 +22,28 @@ import Cookies from 'js-cookie';
 
 const { errors, defineField, handleSubmit } = useForm({
   validationSchema: yup.object({
-    email: yup.string().email().required(),
+    username: yup.string().required(),
     password: yup.string().min(6).required(),
   }),
   initialValues: {
-    email: 'test@example.com',
-    password: '123456'
+    username: 'emilys',
+    password: 'emilyspass'
   }
 });
 
-const [email, emailAttrs] = defineField('email');
+const [username, usernameAttrs] = defineField('username');
 const [password, passwordAttrs] = defineField('password');
 const toast = useToast()
 
 const submitForm = handleSubmit(async (values) => {
 
-  const response = await $fetch('/api/login', {
-    method: 'post',
-    body: { email: values.email, password: values.password }
+  const response = await $fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: { username: values.username, password: values.password ,  expiresInMins: 60,}
   });
 
-  if (response.success) {
+  if (response) {
     toast.show({
       position: 'topRight',
       backgroundColor: "#e7e7e7",
@@ -50,7 +51,8 @@ const submitForm = handleSubmit(async (values) => {
       title: 'Success!',
       message: 'Login Success!'
     })
-    Cookies.set('userToken', response.token, { expires: 7 })
+    Cookies.set('userToken', response.accessToken, { expires: 30 })
+    Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
 
     const cookie = Cookies.get('userToken')
 

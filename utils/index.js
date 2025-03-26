@@ -1,14 +1,19 @@
-export const { format: formatCurrency } = new Intl.NumberFormat('en-GB', {
+export const formatCurrency = new Intl.NumberFormat('en-US', {
+  style: 'currency',
   currency: 'USD',
-  notation: 'compact',
-  maximumFractionDigits: 1
-});
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}).format;
 
 export const formatTextSlug = (slug) => {
   return slug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
+}
+
+export const formatProductSlugDetail = (titleProduct, idProduct) => {
+ return `/product/${formatSlugUrl(titleProduct)}-p-${idProduct}`
 }
 
 export const formatSlugUrl = (slug) => {

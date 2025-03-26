@@ -6,7 +6,9 @@
       <Searchbar @handle-submit="submitSearch"/>
       <div class="flex gap-[14px]">
         <NuxtLink to="/cart" class="relative">
-          <span v-if="countItem > 0" class="absolute bg-red-600 text-white px-2 rounded-[50%] -top-3.5 -right-3">{{ countItem }}</span>
+          <span v-if="cartStore.totalCart() > 0" class="font-bold z-50 absolute bg-red-500 text-white px-2 rounded-[50%] -top-3.5 -right-3">
+            {{ cartStore.totalCart() }}
+          </span>
           <Icon name="ph:shopping-cart" style="color: black" class="text-[25px]" />
         </NuxtLink>
         <button class="cursor-pointer" @click="handelLogout">
@@ -40,9 +42,10 @@ const userIcon = computed(() => {
 
 const cart = ref([])
 const countItem = ref(0)
+const cartStore = useCartStore()
 
 onMounted(() => {
-  cart.value = JSON.parse(localStorage.getItem('cart')) || []
+  cartStore.loadCart()
 })
 
 const submitSearch = (value) => {
@@ -62,6 +65,12 @@ watch(cart, (newCart) => {
 
 const handelLogout = () => {
   userToken.value = null
+  const assetsToken = useCookie('userToken')
+  const refreshToken = useCookie('refreshToken')
+
+  assetsToken.value = null
+  refreshToken.value = null
+
   navigateTo('/auth/signin')
 }
 </script>
