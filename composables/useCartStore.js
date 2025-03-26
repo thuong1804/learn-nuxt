@@ -35,5 +35,10 @@ export const useCartStore = defineStore('cart', {
         this.cart = JSON.parse(localStorage.getItem('cart') || '[]')
       }
     },
+    totalCart() {
+      if (process.client) {
+        return this.cart.length
+      }
+    }
   },
 })
