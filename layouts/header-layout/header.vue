@@ -70,7 +70,8 @@ const handelLogout = () => {
 
   assetsToken.value = null
   refreshToken.value = null
-
+  localStorage.removeItem('cart')
+  cartStore.loadCart()
   navigateTo('/auth/signin')
 }
 </script>

@@ -54,7 +54,7 @@
       <div class="flex gap-5 pt-4">
         <div
           class="bg-[#F0F0F0]  text-[#00000066] rounded-[62px] flex items-center justify-between w-[170px] py-2.5 px-5 ">
-          <button class="flex items-center cursor-pointer" @click="quantity = Math.max(0, quantity - 1)">
+          <button class="flex items-center cursor-pointer" @click="quantity = Math.max(1, quantity - 1)">
             <Icon name="icon-park-outline:minus" style="color: #00000066" class="text-[20px]" />
           </button>
           <button class="text-[20px] text-[#00000066] flex items-center">{{ quantity }}</button>
@@ -63,7 +63,7 @@
           </button>
         </div>
         <Button custom-class="flex-1 max-w-[400px] h-[52px] rounded-[60px]" title="Add to cart"
-          @click="handleAddToCart(item)" />
+          @click="handleAddToCart(item, quantity)" />
       </div>
     </div>
   </div>
@@ -85,6 +85,7 @@ const imgActive = reactive({
 })
 
 const cartStore = useCartStore()
+const quantity = ref(1)
 
 onMounted(() => {
   cartStore.loadCart()
@@ -117,8 +118,8 @@ const calculateTotalDiscount = ((item) => {
 //   })
 // }
 
-const handleAddToCart = (item) => {
-  cartStore.addToCart(item)
+const handleAddToCart = (item, quantity) => {
+  cartStore.addToCart(item, quantity)
 }
 
 defineComponent({

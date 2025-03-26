@@ -11,7 +11,7 @@
     </div>
     <div class="flex justify-between text-[20px] text-[#00000099]">
       Delivery Fee
-      <b class="text-black">$15</b>
+      <b class="text-black">${{deliveryRef}}</b>
     </div>
     <div v-if="promoCodeValue.length > 0" class="flex flex-col">Promo code:
       <div v-for="promo in promoCodeValue" class="flex justify-between items-center pt-2">
@@ -56,8 +56,15 @@ const toast = useToast()
 
 const loadingButton = ref(false)
 const promoCodeValue = ref([])
+const deliveryRef = ref(0)
 
 const codeRef = ref('')
+
+onMounted(() => {
+  if (props.cart.length > 0 ) {
+    deliveryRef.value = 15
+  }
+})
 
 const handleApplyCode = () => {
   loadingButton.value = true
@@ -94,6 +101,7 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
   loadingButton.value = false
 }
 
+
 const subTotal = computed(() => {
   return props.cart.reduce((cur, item) => {
     const calculatePercentage = item.price * (item.discountPercentage / 100)
@@ -115,11 +123,7 @@ const totalOrder = computed(() => {
     const totalResult = initSubTotal * (total / 100)
     return initSubTotal - totalResult
   }
-  return (subTotal.value - totalDiscount.value) - 15
-})
-
-watch(promoCodeValue.value, (newWat) => {
-  console.log(newWat)
+  return (subTotal.value - totalDiscount.value) - deliveryRef.value
 })
 
 </script>

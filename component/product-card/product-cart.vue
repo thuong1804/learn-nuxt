@@ -9,8 +9,8 @@
       <Icon name="ph:star-duotone" style="color: #FFC633" class="text-[20px]" v-for="value in itemProduct.evaluate"
         :key="value" />
     </div>
-    <div class="font-bold text-2xl flex items-center gap-2.5 pb-5">
-      <div v-if=" itemProduct.discountPercentage && itemProduct.discountPercentage > 1" class="flex gap-2 items-center">
+    <div class="font-bold text-2xl flex items-center gap-2.5 pb-5 ">
+      <div v-if=" itemProduct.discountPercentage && itemProduct.discountPercentage > 1" class="flex gap-2 items-center flex-wrap">
         <div class="text-[25px]">${{ calculateTotalDiscount(itemProduct).toFixed(2) }}</div>
         <div class="justify-center text-black/30 text-[25px] font-bold line-through">
           ${{ formatCurrency(itemProduct.price) }}

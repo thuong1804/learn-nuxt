@@ -1,12 +1,3 @@
-<script setup lang="ts">
-definePageMeta({ middleware: 'auth' })
-import Banner from '~/container/landing-page/banner.vue';
-import Popular from '~/container/landing-page/popular.vue';
-import TopSelling from '~/container/landing-page/top-selling.vue';
-import ShopCategory from '~/container/landing-page/shop-category.vue';
-import ReviewCustomer from '~/container/landing-page/review-customer.vue';
-</script>
-
 <template>
   <Banner />
   <div class="bg-black flex justify-center">
@@ -29,3 +20,11 @@ import ReviewCustomer from '~/container/landing-page/review-customer.vue';
   <ShopCategory />
   <ReviewCustomer />
 </template>
+
+<script setup>
+import Banner from '~/container/landing-page/banner.vue';
+import Popular from '~/container/landing-page/popular.vue';
+import TopSelling from '~/container/landing-page/top-selling.vue';
+import ShopCategory from '~/container/landing-page/shop-category.vue';
+import ReviewCustomer from '~/container/landing-page/review-customer.vue';
+</script>
