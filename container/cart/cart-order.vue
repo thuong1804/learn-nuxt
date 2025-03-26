@@ -60,12 +60,6 @@ const deliveryRef = ref(0)
 
 const codeRef = ref('')
 
-onMounted(() => {
-  if (props.cart.length > 0 ) {
-    deliveryRef.value = 15
-  }
-})
-
 const handleApplyCode = () => {
   loadingButton.value = true
   setTimeout(() => {
@@ -100,14 +94,18 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
   codeRef.value = ''
   loadingButton.value = false
 }
-
-
-const subTotal = computed(() => {
+const totalQuantity = computed(() => {
   return props.cart.reduce((cur, item) => {
+   return cur += item.quantity
+  }, 0)
+})
+const subTotal = computed(() => {
+  const totalPrice = props.cart.reduce((cur, item) => {
     const calculatePercentage = item.price * (item.discountPercentage / 100)
     const totalPrice = item.price - calculatePercentage
     return cur += totalPrice
   }, 0)
+  return totalQuantity.value * totalPrice
 })
 
 const totalDiscount = computed(() => {
@@ -116,14 +114,20 @@ const totalDiscount = computed(() => {
 
 const totalOrder = computed(() => {
   if (promoCodeValue.value.length > 0) {
-    const initSubTotal = (subTotal.value - totalDiscount.value) - 15
+    const initSubTotal = (subTotal.value - totalDiscount.value) + deliveryRef.value
     const total = promoCodeValue.value.reduce((cur, item) => {
       return cur += item.value
     }, 0)
     const totalResult = initSubTotal * (total / 100)
     return initSubTotal - totalResult
   }
-  return (subTotal.value - totalDiscount.value) - deliveryRef.value
+  return (subTotal.value - totalDiscount.value) + deliveryRef.value
 })
 
+watch(subTotal, (newSub) => {
+  console.log(newSub)
+  if (newSub > 0) {
+    deliveryRef.value = 15
+  }
+})
 </script>
