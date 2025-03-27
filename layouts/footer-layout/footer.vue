@@ -56,17 +56,17 @@ const itemsPayment = [
           <div class="max-w-[248px] justify-start text-black/60 text-sm font-normal leading pb-9">We have clothes that
             suits
             your style and which you’re proud to wear. From women to men.</div>
-          <div class="flex gap-3">
-            <Icon name="mdi:twitter-circle" style="color: #00000099" class="text-[20px]" />
-            <Icon name="ic:round-facebook" style="color: #00000099" class="text-[20px]" />
-            <Icon name="ri:instagram-fill" style="color: #00000099" class="text-[20px]" />
-            <Icon name="mdi:github" style="color: #00000099" class="text-[20px]" />
+          <div class="flex gap-3 items-center">
+            <Icon name="mdi:twitter-circle" style="color: #00000099" class="text-[20px] cursor-pointer" />
+            <Icon name="ic:round-facebook" style="color: #00000099" class="text-[20px] cursor-pointer" />
+            <Icon name="ri:instagram-fill" style="color: #00000099" class="text-[20px  cursor-pointer]" />
+            <Icon name="mdi:github" style="color: #00000099" class="text-[20px] cursor-pointer" />
           </div>
         </div>
         <div class="flex" v-for="item in itemsFooter">
           <div class="flex flex-col gap-4">
             <div class="text-lg">{{ item.title }}</div>
-            <div class="text-[16px] text-black/60" v-for="value in item.content">
+            <div class="text-[16px] text-black/60 cursor-pointer hover:text-white" v-for="value in item.content">
               {{ value }}
             </div>
           </div>

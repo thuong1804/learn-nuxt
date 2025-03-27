@@ -6,7 +6,7 @@ import Header from './header-layout/header.vue';
 <template>
   <div class="layout">
     <Header />
-    <main class="min-h-screen">
+    <main class="min-h-[500px]">
       <slot />
     </main>
     <Footer />
