@@ -97,7 +97,6 @@ const fetchData = async (newSlug, sortItem) => {
       order: 'asc',
     }
   });
-
  if (!response || response.total === 0) {
     dataProducts.value = null;
     totalItems.value = 0;

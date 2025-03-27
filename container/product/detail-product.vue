@@ -4,7 +4,7 @@
       <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(0,3) : item?.images)"
         :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-500 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
-        <img :src="img" class="w-full h-[150px] object-contain" />
+        <NuxtImg :src="img" class="w-full h-[150px] object-contain" />
       </div>
     </div>
     <div class="pr-10 w-[444px] h-full">
@@ -31,7 +31,7 @@
           ${{ formatCurrency(item.price) }}
         </div>
       </div>
-      <div class="w-full justify-start text-black/60 text-base font-normal leading-snug pb-2">{{ item.description }}
+      <div class="w-full justify-start text-black/60 text-base font-normal leading-snug pb-2 pt-2">{{ item.description }}
       </div>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10"></div>
       <div class="text-base font-normal text-[#00000066] pt-4">Category:
@@ -54,7 +54,7 @@
       <div class="flex gap-5 pt-4">
         <div
           class="bg-[#F0F0F0]  text-[#00000066] rounded-[62px] flex items-center justify-between w-[170px] py-2.5 px-5 ">
-          <button class="flex items-center cursor-pointer" @click="quantity = Math.max(0, quantity - 1)">
+          <button class="flex items-center cursor-pointer" @click="quantity = Math.max(1, quantity - 1)">
             <Icon name="icon-park-outline:minus" style="color: #00000066" class="text-[20px]" />
           </button>
           <button class="text-[20px] text-[#00000066] flex items-center">{{ quantity }}</button>
@@ -63,7 +63,7 @@
           </button>
         </div>
         <Button custom-class="flex-1 max-w-[400px] h-[52px] rounded-[60px]" title="Add to cart"
-          @click="handleAddToCart(item)" />
+          @click="handleAddToCart(item, quantity)" />
       </div>
     </div>
   </div>
@@ -73,7 +73,6 @@
 import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
 import ImageZoom from '~/component/image-zoom/image-zoom.vue';
-
 
 const props = defineProps({
   item: { type: Object, required: true }
@@ -85,6 +84,7 @@ const imgActive = reactive({
 })
 
 const cartStore = useCartStore()
+const quantity = ref(1)
 
 onMounted(() => {
   cartStore.loadCart()
@@ -117,8 +117,8 @@ const calculateTotalDiscount = ((item) => {
 //   })
 // }
 
-const handleAddToCart = (item) => {
-  cartStore.addToCart(item)
+const handleAddToCart = (item, quantity) => {
+  cartStore.addToCart(item, quantity)
 }
 
 defineComponent({

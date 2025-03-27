@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="flex flex-col gap-2">
+    <label class="text-[15px]">{{ placeholder }}</label>
     <input :type="type" :placeholder="placeholder"  :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" v-bind="inputAttrs" :class="[
       'bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5',
       'focus:ring-blue-500 focus:border-blue-500',
@@ -13,7 +14,7 @@
 
 <script setup>
 const inputProp = defineProps({
-  modelValue: String, // Hỗ trợ v-model
+  modelValue: String,
   type: { type: String, default: "text" },
   placeholder: { type: String, default: "" },
   error: { type: String, default: "" },

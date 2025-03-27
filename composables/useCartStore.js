@@ -5,12 +5,12 @@ export const useCartStore = defineStore('cart', {
     cart: []
   }),
   actions: {
-    addToCart(product) {
+    addToCart(product, quantity) {
       const existing = this.cart.find((item) => item.id === product.id)
       if (existing) {
-        existing.quantity += 1
+        existing.quantity = quantity
       } else {
-        this.cart.push({ ...product, quantity: 1 })
+        this.cart.push({ ...product, quantity: quantity })
       }
       this.saveCart()
     },
@@ -20,6 +20,13 @@ export const useCartStore = defineStore('cart', {
         product.quantity = Math.max(1, newQuantity)
         this.saveCart()
       }
+    },
+    totalPrice() {
+      const totalPrice = this.cart.reduce((cur, item) => {
+        const calculatePercentage = item.discountPercentage ? item.price * (item.discountPercentage / 100) : item.price
+        return cur += (item.discountPercentage ? item.price - calculatePercentage : item.price) * item.quantity
+      }, 0)
+      return totalPrice
     },
     removeFromCart(productId) {
       this.cart = this.cart.filter((item) => item.id !== productId)

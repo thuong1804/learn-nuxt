@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col items-center pb-[150px] gap-1">
-    <img :src="ImgNotFoundProduct" />
+    <NuxtImg :src="ImgNotFoundProduct" />
     <div class="font-bold">We apologize for any inconvenience…</div>
     <div class="flex items-center gap-2">The page you are looking for does not exist. Please return to the home page.
       <Icon name="clarity:sad-face-line" style="color: black" class="text-[20px]"/>
@@ -15,5 +15,6 @@
 </template>
 
 <script setup>
+import { NuxtImg } from '#components';
 import ImgNotFoundProduct from '/product-not-found.png'
 </script>
