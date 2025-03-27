@@ -1,6 +1,6 @@
 <template>
   <div ref="container" class="relative inline-block w-full h-full rounded-[20px] shadow-sm p-2">
-    <img
+    <NuxtImg
       :src="imageSrc"
       alt="Thumbnail"
       class="w-full h-full object-contain cursor-zoom-in"
@@ -13,7 +13,7 @@
       class="absolute top-0 ml-4 w-[800px] h-[600px] overflow-hidden border-2 border-gray-200 shadow-lg bg-white z-50 rounded-[20px]"
       :style="{ left: modalLeft + 'px' }"
     >
-      <img
+      <NuxtImg
         :src="imageSrc"
         alt="Zoomed"
         class="absolute w-[1000px] h-auto object-contain"

@@ -34,6 +34,7 @@ const { errors, defineField, handleSubmit } = useForm({
 const [username, usernameAttrs] = defineField('username');
 const [password, passwordAttrs] = defineField('password');
 const toast = useToast()
+const {fetchProfile} = useProfile()
 
 const submitForm = handleSubmit(async (values) => {
 
@@ -53,11 +54,12 @@ const submitForm = handleSubmit(async (values) => {
     })
     Cookies.set('userToken', response.accessToken, { expires: 30 })
     Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
-
     const cookie = Cookies.get('userToken')
 
     if (cookie) {
       setTimeout(() => {
+        fetchProfile()
+
         return navigateTo('/')
       }, 1500)
     }

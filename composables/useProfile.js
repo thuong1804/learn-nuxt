@@ -1,18 +1,24 @@
-export async function useProfile () {
-  return useAsyncData('profile', async () => {
-    const cookie = useCookie('userToken')
+export function useProfile() {
+  const profile = useState('profile', () => null)
+  const cookie = useCookie('userToken')
 
-    if (!cookie.value) {
-      console.error('No token found')
-      return null
+  const fetchProfile = async () => {
+    if (profile.value) return
+
+    if (cookie.value) {
+      try {
+        const data = await $fetch('https://dummyjson.com/auth/me', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${cookie.value}` },
+          credentials: 'include',
+        })
+        console.log(data)
+        profile.value = data
+      } catch (error) {
+        console.error('Error fetching profile:', error)
+        profile.value = null
+      }
     }
-
-    return await $fetch('/api/auth/profile', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${cookie.value}`,
-      },
-      credentials: 'include'
-    })
-  })
+  }
+  return { profile, fetchProfile }
 }

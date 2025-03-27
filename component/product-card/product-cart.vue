@@ -1,7 +1,7 @@
 <template>
   <NuxtLink :to="formatProductSlugDetail(itemProduct.title, itemProduct.id)" class="flex flex-col items-start gap-2 w-full">
     <div class="border border-[#f0eeed]  rounded-[20px] px-4 py-4 w-full max-w-[300px] shadow-sm">
-      <img :src="itemProduct.images[0]" class="w-full h-[300px] min-h-[300px] transition-all  hover:scale-105 object-contain" />
+      <NuxtImg :src="itemProduct.images[0]" class="w-full h-[300px] min-h-[300px] transition-all  hover:scale-105 object-contain" />
     </div>
     <div class="font-bold text-[16px]">{{ itemProduct.title }}</div>
     <div class="font-bold text-[16px]">{{ itemProduct.brand }}</div>

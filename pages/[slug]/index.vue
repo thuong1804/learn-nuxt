@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <ProductCardContainer :data="data" :column="3" />
+          <ProductCardContainer :data="data" column="3" />
           <div class="w-full">
             <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" @on-click-page="handlePage" />
           </div>

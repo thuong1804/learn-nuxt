@@ -1,6 +1,6 @@
 export default defineEventHandler(async (event) => {
   let cookie = getCookie(event, 'userToken')
-  
+  console.log(cookie)
   if (!cookie) {
     return { statusCode: 401, message: 'Missing token' }
   }

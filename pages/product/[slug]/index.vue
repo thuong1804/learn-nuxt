@@ -11,15 +11,10 @@
 
 <script setup>
 
-import authMiddleware from "@/middleware/auth";
 import DetailProduct from "~/container/product/detail-product.vue";
 import TabsDetailProduct from '~/container/product/tabs-detail-product.vue';
 import MoreProduct from "~/container/product/more-product.vue";
 import Breadcrumb from "~/component/breadcrumb/breadcrumb.vue";
-
-definePageMeta({
-  middleware: authMiddleware
-});
 
 const route = useRoute()
 const id = route.params.slug.split("-p-").pop()

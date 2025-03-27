@@ -2,11 +2,11 @@
   <Banner />
   <div class="bg-black flex justify-center">
     <div class=" bg-black flex items-center justify-between max-w-96 md:max-w-[78rem] min-h-32 w-full">
-      <img src="/verce.png" class="w-[100px] h-[30px] object-contain" />
-      <img src="/cavin.png" class="w-[100px] h-[30px] object-contain" />
-      <img src="/guci.png" class="w-[100px] h-[30px] object-contain" />
-      <img src="/zara.png" class="w-[100px] h-[30px] object-contain" />
-      <img src="/pra.png" class="w-[100px] h-[30px] object-contain" />
+      <NuxtImg src="/verce.png" class="w-[100px] h-[30px] object-contain" />
+      <NuxtImg src="/cavin.png" class="w-[100px] h-[30px] object-contain" />
+      <NuxtImg src="/guci.png" class="w-[100px] h-[30px] object-contain" />
+      <NuxtImg src="/zara.png" class="w-[100px] h-[30px] object-contain" />
+      <NuxtImg src="/pra.png" class="w-[100px] h-[30px] object-contain" />
     </div>
   </div>
   <Popular />

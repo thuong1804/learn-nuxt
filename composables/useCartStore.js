@@ -21,6 +21,13 @@ export const useCartStore = defineStore('cart', {
         this.saveCart()
       }
     },
+    totalPrice() {
+      const totalPrice = this.cart.reduce((cur, item) => {
+        const calculatePercentage = item.discountPercentage ? item.price * (item.discountPercentage / 100) : item.price
+        return cur += (item.discountPercentage ? item.price - calculatePercentage : item.price) * item.quantity
+      }, 0)
+      return totalPrice
+    },
     removeFromCart(productId) {
       this.cart = this.cart.filter((item) => item.id !== productId)
       this.saveCart()

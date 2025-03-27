@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     'nuxt-toast',
     'vue3-carousel-nuxt',
     'nuxt-time',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@nuxt/image',
   ],
 })

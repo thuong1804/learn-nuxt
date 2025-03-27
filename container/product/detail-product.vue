@@ -4,7 +4,7 @@
       <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(0,3) : item?.images)"
         :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-500 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
-        <img :src="img" class="w-full h-[150px] object-contain" />
+        <NuxtImg :src="img" class="w-full h-[150px] object-contain" />
       </div>
     </div>
     <div class="pr-10 w-[444px] h-full">
@@ -31,7 +31,7 @@
           ${{ formatCurrency(item.price) }}
         </div>
       </div>
-      <div class="w-full justify-start text-black/60 text-base font-normal leading-snug pb-2">{{ item.description }}
+      <div class="w-full justify-start text-black/60 text-base font-normal leading-snug pb-2 pt-2">{{ item.description }}
       </div>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10"></div>
       <div class="text-base font-normal text-[#00000066] pt-4">Category:
@@ -73,7 +73,6 @@
 import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
 import ImageZoom from '~/component/image-zoom/image-zoom.vue';
-
 
 const props = defineProps({
   item: { type: Object, required: true }

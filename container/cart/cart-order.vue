@@ -3,7 +3,7 @@
   <div class="flex flex-col gap-5">
     <div class="flex justify-between text-[20px] text-[#00000099]">
       Subtotal
-      <b class="text-black">{{ formatCurrency(subTotal) }}</b>
+      <b class="text-black">{{formatCurrency(subTotal)}}</b>
     </div>
     <div class="flex justify-between text-[20px] text-[#00000099]">
       Discount (-20%)
@@ -49,16 +49,23 @@
 
 <script setup>
 import Button from '~/component/button/button.vue'
+
 const props = defineProps({
-  cart: Array
+  cart: Array,
+  keyItem: Number,
+  totalSubPrice: Function,
 })
 const toast = useToast()
 
 const loadingButton = ref(false)
 const promoCodeValue = ref([])
 const deliveryRef = ref(0)
-
+const subTotal = ref(0)
 const codeRef = ref('')
+
+watch(props.totalSubPrice, (newPrice) => {
+  subTotal.value = newPrice
+})
 
 const handleApplyCode = () => {
   loadingButton.value = true
@@ -74,7 +81,9 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
   if (!mappingItemPromo.includes(promoCode)) {
     const initRandom = [10, 15, 20, 25, 30];
     const randomNumber = initRandom[Math.floor(Math.random() * initRandom.length)]
+
     itemPromoCode.push({ title: promoCode, value: randomNumber })
+
     toast.show({
       position: 'topCenter',
       backgroundColor: "#20cd2b",
@@ -94,19 +103,6 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
   codeRef.value = ''
   loadingButton.value = false
 }
-const totalQuantity = computed(() => {
-  return props.cart.reduce((cur, item) => {
-   return cur += item.quantity
-  }, 0)
-})
-const subTotal = computed(() => {
-  const totalPrice = props.cart.reduce((cur, item) => {
-    const calculatePercentage = item.price * (item.discountPercentage / 100)
-    const totalPrice = item.price - calculatePercentage
-    return cur += totalPrice
-  }, 0)
-  return totalQuantity.value * totalPrice
-})
 
 const totalDiscount = computed(() => {
   return subTotal.value * (20 / 100)
@@ -125,7 +121,6 @@ const totalOrder = computed(() => {
 })
 
 watch(subTotal, (newSub) => {
-  console.log(newSub)
   if (newSub > 0) {
     deliveryRef.value = 15
   }

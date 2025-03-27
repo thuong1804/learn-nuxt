@@ -11,6 +11,9 @@
           </span>
           <Icon name="ph:shopping-cart" style="color: black" class="text-[25px]" />
         </NuxtLink>
+        <NuxtLink v-if="userToken" to="/profile">
+          <Icon name="ph:user-bold" style="color: black" class="text-[25px]" />
+        </NuxtLink>
         <button class="cursor-pointer" @click="handelLogout">
           <Icon :name="userIcon" style="color: black" class="text-[25px]" />
         </button>
@@ -37,7 +40,7 @@ const userToken = useCookie('userToken')
 const userIcon = computed(() => {
   return userToken.value
     ? 'ic:baseline-log-out'
-    :'ph:user-bold'
+    :'tabler:login'
 })
 
 const cart = ref([])
