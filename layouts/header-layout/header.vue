@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white md:py-9 z-40">
     <div class="flex flex-row justify-between items-center md:gap-10 max-w-96 md:max-w-[78rem] my-0 mx-auto">
-      <NuxtLink to="/" class="text-[32px] font-bold">SHOP.CO</NuxtLink>
+      <NuxtLink to="/" class="text-[32px] font-bold">GO MART</NuxtLink>
       <Navbar />
       <Searchbar @handle-submit="submitSearch"/>
       <div class="flex gap-[14px]">
