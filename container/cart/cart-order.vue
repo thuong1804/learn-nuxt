@@ -63,6 +63,10 @@ const deliveryRef = ref(0)
 const subTotal = ref(0)
 const codeRef = ref('')
 
+onMounted(() => {
+  subTotal.value = props.totalSubPrice()
+})
+
 watch(props.totalSubPrice, (newPrice) => {
   subTotal.value = newPrice
 })

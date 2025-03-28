@@ -12,7 +12,6 @@ export function useProfile() {
           headers: { 'Authorization': `Bearer ${cookie.value}` },
           credentials: 'include',
         })
-        console.log(data)
         profile.value = data
       } catch (error) {
         console.error('Error fetching profile:', error)
