@@ -2,7 +2,7 @@
   <div class="w-full flex items-center justify-center h-full mt-[20px] pb-[150px]">
     <div class="flex h-full border w-1/2 rounded-[20px] border-[#00000066] justify-around">
       <div class="w-1/2 flex flex-col items-center gap-2">
-        <NuxtImg :src="profile.image" class="w-[250px] h-[200px]"/>
+        <NuxtImg :src="profile.image" class="w-[250px] h-[200px] object-contain"/>
         <Button title="Upload avatar" class="bg-cyan-900"/>
       </div>
       <div class="flex flex-col flex-1 w-full gap-10 py-8 px-6  border-[#00000066]  border-l-2">
@@ -12,7 +12,7 @@
           <Input v-model="username" type="text" placeholder="Username" :error="errors.username"
             :inputAttrs="usernameAttrs" />
           <Input v-model="email" type="text" placeholder="Email" :error="errors.email" :inputAttrs="emailAttrs" />
-          <Input v-model="birthDate" type="text" placeholder="Birth Date" :error="errors.birthDate"
+          <Input v-model="birthDate" type="datetime" placeholder="Birth Date" :error="errors.birthDate"
             :inputAttrs="birthDateAttrs" />
           <Input v-model="address" type="text" placeholder="Address" :error="errors.address"
             :inputAttrs="addressAttrs" />
@@ -31,13 +31,14 @@ import Button from '~/component/button/button.vue';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import Input from '~/component/input/input.vue';
-import Cookies from 'js-cookie';
 const { profile } = useProfile()
 
 const { errors, defineField, handleSubmit } = useForm({
   validationSchema: yup.object({
     username: yup.string().required(),
     email: yup.string().email().required(),
+    address: yup.string().required(),
+    country: yup.string().required(),
 
   }),
   initialValues: {

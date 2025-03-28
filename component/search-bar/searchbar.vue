@@ -5,7 +5,7 @@
       <Icon name="ph:magnifying-glass-light" style="color: black" class="text-[20px]" />
     </button>
     <input v-model="inputRef" placeholder="Search for products..."
-      class="text-[#00000066] flex-1 border-0 border-none focus:ring-0 focus:outline-none" />
+      class="text-[#00000066] flex-1 border-0 border-none focus:ring-0 focus:outline-none " />
     <button @click="handleClearInput" v-if="inputRef" type="button" class="cursor-pointer px-2 py-2 flex items-center">
       <Icon name="ic:outline-clear" style="color: black" class="text-[20px]" />
     </button>

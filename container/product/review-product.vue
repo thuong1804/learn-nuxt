@@ -43,6 +43,7 @@
 <script setup>
 import Divider from '~/component/divider/divider.vue';
 import vue3starRatings from "vue3-star-ratings";
+
 import Button from '~/component/button/button.vue';
 
 defineProps({
