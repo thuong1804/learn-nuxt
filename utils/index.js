@@ -25,7 +25,7 @@ const getApiUrl = (path) => {
   return `${config.public.API_URL}${path}`;
 };
 
-export const apiFetch = async (endpoint, method = 'GET', options) => {
+export const apiFetch = async (endpoint, options, method = 'GET') => {
   return $fetch(getApiUrl(endpoint), {
     method: method,
     ...options,

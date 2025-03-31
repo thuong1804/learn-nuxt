@@ -1,7 +1,6 @@
 export function useProfile() {
   const profile = useState('profile', () => null)
   const cookie = useCookie('userToken')
-
   const fetchProfile = async () => {
     if (profile.value) return
 

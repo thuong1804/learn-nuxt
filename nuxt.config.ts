@@ -2,6 +2,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // app: {
+  //   pageTransition: { name: 'page', mode: 'default' }
+  // },
   runtimeConfig: {
     public: {
       API_URL: process.env.API_URL || "https://dummyjson.com",

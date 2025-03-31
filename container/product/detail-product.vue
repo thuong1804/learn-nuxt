@@ -1,10 +1,10 @@
 <template>
-  <div class="flex max-w-96 md:max-w-[78rem] w-full items-start h-[540px] max-h-max">
+  <div class="flex max-w-96 md:max-w-[78rem] w-full items-start h-[540px] max-h-max fade-in">
     <div class="flex flex-col pr-3.5 w-1/5 h-full justify-between gap-3">
       <div v-for="(img, index) in (item?.images?.length > 3 ? item?.images?.slice(0,3) : item?.images)"
         :class="['rounded-[20px] shadow-sm cursor-pointer transition-all  hover:scale-105 p-1.5', imgActive.key === index ? 'border-gray-500 border' : 'border-gray-200 border']"
         @click="handleClickImg(img, index)">
-        <NuxtImg :src="img" class="w-full h-[150px] object-contain" />
+        <NuxtImg :src="img" class="w-full h-[150px] object-contain" loading="lazy" :alt="img"/>
       </div>
     </div>
     <div class="pr-10 w-[444px] h-full">
@@ -20,7 +20,7 @@
         <div v-if="item.discountPercentage && item.discountPercentage > 1" class="flex gap-2 items-center">
           <div class="text-[25px]">${{ calculateTotalDiscount(item).toFixed(2) }}</div>
           <div class="justify-center text-black/30 text-[25px] font-bold line-through">
-            ${{ formatCurrency(item.price) }}
+            {{ formatCurrency(item.price) }}
           </div>
           <div
             class="px-3.5 py-1.5 w-[58px] bg-[#FF33331A] text-red-500 flex items-center justify-center rounded-2xl text-[12px]">
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div v-else class="justify-center text-black text-[25px] font-bold">
-          ${{ formatCurrency(item.price) }}
+          {{ formatCurrency(item.price) }}
         </div>
       </div>
       <div class="w-full justify-start text-black/60 text-base font-normal leading-snug pb-2 pt-2">{{ item.description }}
@@ -74,6 +74,15 @@ import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
 import ImageZoom from '~/component/image-zoom/image-zoom.vue';
 
+const router = useRouter()
+
+watch(
+  () => router.currentRoute.value,
+  () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+)
+
 const props = defineProps({
   item: { type: Object, required: true }
 })
@@ -118,6 +127,7 @@ const calculateTotalDiscount = ((item) => {
 // }
 
 const handleAddToCart = (item, quantity) => {
+  console.log(quantity)
   cartStore.addToCart(item, quantity)
 }
 
@@ -128,3 +138,19 @@ defineComponent({
 });
 
 </script>
+
+<style scoped>
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
