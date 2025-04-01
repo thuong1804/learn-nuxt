@@ -3,5 +3,5 @@ export default defineEventHandler(async (event) => {
   if (!idProduct || isNaN(idProduct)) {
     throw createError({ statusCode: 400, message: "Invalid product ID" });
   }
-  return await $fetch(`https://dummyjson.com/products/${idProduct}`)
+  return await $fetch(`${process.env.API_URL}/products/${idProduct}`)
 })

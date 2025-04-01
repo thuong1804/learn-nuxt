@@ -31,12 +31,6 @@
         </div>
       </div>
     </div>
-    <div class="pb-10 pt-10">
-      <div class="w-full flex justify-center items-center">
-        <Button title="Load more review"/>
-      </div>
-    </div>
-    <Divider/>
   </div>
 </template>
 

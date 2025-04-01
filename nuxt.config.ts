@@ -2,6 +2,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // app: {
+  //   pageTransition: { name: 'page', mode: 'default' }
+  // },
   runtimeConfig: {
     public: {
       API_URL: process.env.API_URL || "https://dummyjson.com",
@@ -17,14 +20,17 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
-
+  ui: {
+    colorMode: false
+  },
   modules: [
     '@nuxt/icon',
     '@vee-validate/nuxt',
-    'nuxt-toast',
     'vue3-carousel-nuxt',
     'nuxt-time',
     '@pinia/nuxt',
     '@nuxt/image',
+    '@nuxt/ui',
+    'reka-ui/nuxt'
   ],
 })

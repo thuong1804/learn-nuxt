@@ -17,7 +17,7 @@
                 <div class="relative inline-block">
                   <div @click="isOpen = !isOpen"
                     class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
-                    {{ slugFilter.name }}
+                    {{ objectFilter.name }}
                   </div>
                   <div v-show="isOpen"
                     class="absolute z-[100] mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div v-else>
-        <NotFound/>
+        <NotFound />
       </div>
     </div>
   </div>
@@ -53,35 +53,37 @@ import Categories from '~/component/categories/categories.vue';
 import ProductCardContainer from '~/component/product-card/product-card-container.vue';
 import Pagination from '~/component/pagination/pagination.vue';
 import NotFound from '~/component/not-found/not-found.vue';
+import { apiConfig } from '~/constants/api';
 
 const route = useRoute()
+const router = useRouter()
+
 const { slug } = route.params
 
 const isOpen = ref(false);
+const isNotFound = ref(false)
 const data = ref([])
-const lengthData = ref(0)
 const totalItems = ref(0);
 const limit = ref(9);
 const pageRef = ref(0)
-const skip = ref(0)
-const isNotFound = ref(false)
-const slugFilter = reactive({
-  name: 'Most popular',
-  slug: 'rating'
-})
 
 const nameCategory = ref('')
 
 const itemFilter = [
   {
     name: 'Most popular',
-    slug: 'rating',
+    slug: 'asc',
   },
   {
     name: 'Price',
-    slug: 'price',
+    slug: 'desc',
   },
 ]
+
+const objectFilter = reactive({
+  name: itemFilter[0].name,
+  slug:  itemFilter[0].slug
+})
 
 const handlePage = (page) => {
   pageRef.value = page
@@ -104,38 +106,58 @@ onUnmounted(() => {
 })
 
 const handelFilterItem = (slug, name) => {
-  slugFilter.name = name
-  slugFilter.slug = slug
-}
-const getProductsWithByCategory = (slug, skip) => {
-  if (slug === 'sale') {
-    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'rating' : 'price'}&order=desc&limit=${limit.value}&skip=${skip}`;
-  }
-  if (slug === 'popular') {
-    return `https://dummyjson.com/products?sortBy=${slugFilter.slug === 'rating' ? 'price' : 'rating'}&order=desc&limit=${limit.value}&skip=${skip}`;
-  }
-  return `https://dummyjson.com/products/category/${slug}?limit=${limit.value}&sortBy=${slugFilter.slug}&order=desc&skip=${skip}`
+  objectFilter.name = name
+  objectFilter.slug = slug
 }
 
-const fetchData = async () => {
-  const response = await $fetch(getProductsWithByCategory(slug, skip.value), { method: 'GET' });
+const fetchDataProduct = async (skip, filter) => {
+  const isCheckProductByCategory = slug === 'sale' || slug === 'popular'
+
+  const response = await apiFetch(`${isCheckProductByCategory ? apiConfig.product.getList : apiConfig.product.productByCategory(slug)}`, {
+    query: {
+      ...(isCheckProductByCategory ? { sortBy: slug === 'sale' ? 'discountPercentage' : 'rating' } : {}),
+      ...(filter ? { order: filter } : {}),
+      limit: limit.value,
+      ...(skip ? { skip: skip } : {}),
+    }
+  })
+
   data.value = response;
-  lengthData.value = response.total;
   totalItems.value = response.total
   nameCategory.value = slug === 'sale' ? 'Sale' : slug === 'popular' ? 'Popular' : response.products?.[0]?.category || slug;
 }
 
-watch(() => slugFilter.slug, fetchData)
+watch(
+  [() => route.query.skip, () => objectFilter.slug, () => route.query.page],
+  ([newSkip, newFilter, newPage]) => {
+   if (newPage) currentPage.value = +newPage
+    fetchDataProduct(newSkip, newFilter)
+  },
+  { immediate: true }
+)
 
 watch(pageRef, (newPage, oldPage) => {
   if (oldPage !== undefined) {
     const newSkip = (newPage - 1) * limit.value;
     if (newSkip >= totalItems.value) {
-      skip.value = totalItems.value - limit.value;
+      const skip = totalItems.value - limit.value;
+      router.push({
+        path: slug,
+        query: {
+          page: newPage,
+          skip: skip,
+        }
+      })
     } else {
-      skip.value = newSkip;
+    const skip = newSkip;
+      router.push({
+        path: slug,
+        query: {
+          page: newPage,
+          skip: skip,
+        }
+      })
     }
-    fetchData();
   }
 });
 
@@ -147,5 +169,4 @@ watch(data, (newData) => {
   }
 })
 
-fetchData()
 </script>

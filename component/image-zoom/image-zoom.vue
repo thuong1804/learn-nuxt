@@ -7,6 +7,7 @@
       @mouseover="showZoom = true"
       @mouseleave="showZoom = false"
       @mousemove="updateZoomPosition"
+      loading="lazy"
     />
     <div
       v-if="showZoom"

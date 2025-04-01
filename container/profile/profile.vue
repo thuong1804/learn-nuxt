@@ -58,17 +58,8 @@ const [email, emailAttrs] = defineField('email');
 const [gender, genderAttrs] = defineField('gender');
 const [country, countryAttrs] = defineField('country');
 
-const toast = useToast()
-
 const submitForm = handleSubmit(async (values) => {
   console.log(values)
-  toast.show({
-    position: 'topRight',
-    backgroundColor: "#e7e7e7",
-    color: 'black',
-    title: 'Success!',
-    message: 'Update profile Success!'
-  })
   // const response = await $fetch('/api/auth/login', {
   //   method: 'POST',
   //   headers: { 'Content-Type': 'application/json' },
@@ -76,13 +67,6 @@ const submitForm = handleSubmit(async (values) => {
   // });
 
   // if (response) {
-  //   toast.show({
-  //     position: 'topRight',
-  //     backgroundColor: "#e7e7e7",
-  //     color: 'black',
-  //     title: 'Success!',
-  //     message: 'Login Success!'
-  //   })
   //   Cookies.set('userToken', response.accessToken, { expires: 30 })
   //   Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
 

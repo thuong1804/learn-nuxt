@@ -27,12 +27,14 @@ const props = defineProps({
   column: String,
   onLoadMore: Function,
 })
-const itemLoading = new Array(props.column ? 6 : 8)
+const itemLoading = new Array(props.column ? 9 : 12)
 const dataProducts = ref([])
+
 const emit = defineEmits(['handleLoadMore'])
 
 watch(() => props.data, (newData) => {
   dataProducts.value = newData.products
 }, { deep: true})
+
 
 </script>

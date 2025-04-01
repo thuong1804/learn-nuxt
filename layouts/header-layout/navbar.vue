@@ -20,7 +20,7 @@
         </ul>
       </div>
     </div>
-    <NuxtLink :to="getCorrectLink(nav.slug)" v-for="nav in itemNav" class="hover:text-gray-200">
+    <NuxtLink :to="`/${nav.slug}`" v-for="nav in itemNav" class="font-bold hover:text-gray-500 ">
       {{ nav.name }}
     </NuxtLink>
 
@@ -43,7 +43,6 @@ const itemNav = [
   },
 ]
 
-
 const iconRender = computed(() => {
   return isOpen.value === true ? 'material-symbols:keyboard-arrow-up' : 'material-symbols:keyboard-arrow-down-rounded'
 })
@@ -62,7 +61,7 @@ watch(response, (newData) => {
 }, { deep: true, immediate: true })
 
 const getCorrectLink = (slug) => {
-  return `${url.origin}/${formatSlugUrl(slug)}`;
+  return `/${formatSlugUrl(slug)}`;
 };
 
 const closeMenu = (event) => {

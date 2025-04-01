@@ -1,3 +1,3 @@
 export default defineEventHandler(async (event) => {
-  return await $fetch('https://dummyjson.com/products/categories')
+return await $fetch(`${process.env.API_URL}/products/categories`)
 })

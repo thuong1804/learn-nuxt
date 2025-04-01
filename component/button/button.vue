@@ -1,5 +1,5 @@
 <template>
-  <button :type="type"  :class="[computedClass, props.customClass]" :disabled="loading || disabled" @click="handleClick">
+  <button title="tool" :type="type"  :class="[computedClass, props.customClass]" :disabled="loading || disabled" @click="handleClick">
     <span v-if="loading" class="flex items-center justify-center gap-2">
       <Icon name="line-md:loading-twotone-loop" class="text-[16px]" />
       Loading...
