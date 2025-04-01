@@ -1,4 +1,9 @@
 export default defineNuxtPlugin(async () => {
+  const cookie = useCookie('userToken')
+
   const { fetchProfile } = useProfile()
-  await fetchProfile()
+
+  if (cookie.value) {
+    await fetchProfile()
+  }
 })
