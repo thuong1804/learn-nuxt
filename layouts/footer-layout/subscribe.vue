@@ -4,16 +4,49 @@
     <div class="text-white font-bold text-[40px] w-1/2">
       STAY UPTO DATE ABOUT OUR LATEST OFFERS
     </div>
-    <div class="flex flex-col gap-3.5">
+    <form v-on:submit="handleSubmit" class="flex flex-col gap-3.5">
       <div class="relative w-[349px]">
         <Icon name="material-symbols-light:mail"
           class="absolute left-4 top-1/2 transform -translate-y-1/2 text-[20px] text-black/60" />
-        <input type="email" placeholder="Enter your email address"
+        <input type="email" placeholder="Enter your email address" v-model="form.email"
           class="w-full pl-12 pr-4 py-3 bg-[#F0F0F0] rounded-[62px] text-black/40 text-base font-normal  focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
       <div class="w-[349px]">
-        <button class="bg-white rounded-[62px]  px-4 py-3  w-full flex justify-center items-center text-black text-base font-medium transition cursor-pointer active:scale-95">Subscribe to Newsletter</button>
+        <button :disabled="form.email === ''" type="submit" :class=" [' bg-white rounded-[62px]  px-4 py-3  w-full flex justify-center items-center text-black text-base font-medium transition ',
+          form.email === '' ? 'active:scale-100 cursor-not-allowed' : 'active:scale-95 cursor-pointer'
+        ]">Subscribe to Newsletter</button>
       </div>
-    </div>
+    </form>
   </div>
 </template>
+
+<script setup>
+const { sendEmail, success } = useEmail();
+
+const form = reactive({
+  email: '',
+  message: 'Hello'
+});
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+
+  try {
+    await sendEmail({
+      to: form.email,
+      name: "User",
+      subject: "New Contact Message",
+      message: form.message
+    });
+    console.log(success)
+
+    if (success.value) {
+      form.email = '';
+      form.message = '';
+    }
+  } catch (err) {
+    console.error('Failed to send email:', err);
+  }
+};
+
+</script>

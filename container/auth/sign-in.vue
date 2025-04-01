@@ -33,7 +33,6 @@ const { errors, defineField, handleSubmit } = useForm({
 
 const [username, usernameAttrs] = defineField('username');
 const [password, passwordAttrs] = defineField('password');
-const toast = useToast()
 const {fetchProfile} = useProfile()
 
 const submitForm = handleSubmit(async (values) => {
@@ -45,13 +44,6 @@ const submitForm = handleSubmit(async (values) => {
   });
 
   if (response) {
-    toast.show({
-      position: 'topRight',
-      backgroundColor: "#e7e7e7",
-      color: 'black',
-      title: 'Success!',
-      message: 'Login Success!'
-    })
     Cookies.set('userToken', response.accessToken, { expires: 30 })
     Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
     const cookie = Cookies.get('userToken')

@@ -20,14 +20,17 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
-
+  ui: {
+    colorMode: false
+  },
   modules: [
     '@nuxt/icon',
     '@vee-validate/nuxt',
-    'nuxt-toast',
     'vue3-carousel-nuxt',
     'nuxt-time',
     '@pinia/nuxt',
     '@nuxt/image',
+    '@nuxt/ui',
+    'reka-ui/nuxt'
   ],
 })

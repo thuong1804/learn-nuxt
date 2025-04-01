@@ -55,7 +55,6 @@ const props = defineProps({
   keyItem: Number,
   totalSubPrice: Function,
 })
-const toast = useToast()
 
 const loadingButton = ref(false)
 const promoCodeValue = ref([])
@@ -87,22 +86,7 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
     const randomNumber = initRandom[Math.floor(Math.random() * initRandom.length)]
 
     itemPromoCode.push({ title: promoCode, value: randomNumber })
-
-    toast.show({
-      position: 'topCenter',
-      backgroundColor: "#20cd2b",
-      color: 'white',
-      title: 'Success!',
-      message: 'Apply promo success!'
-    })
   } else {
-    toast.show({
-      position: 'topCenter',
-      backgroundColor: "red",
-      color: 'white',
-      title: 'Error!',
-      message: 'Promo already exists!',
-    })
   }
   codeRef.value = ''
   loadingButton.value = false
