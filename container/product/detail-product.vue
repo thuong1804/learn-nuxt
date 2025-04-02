@@ -55,11 +55,11 @@
         <div
           class="bg-[#F0F0F0]  text-[#00000066] rounded-[62px] flex items-center justify-between w-[170px] py-2.5 px-5 ">
           <button class="flex items-center cursor-pointer" @click="quantity = Math.max(1, quantity - 1)">
-            <Icon name="icon-park-outline:minus" style="color: #00000066" class="text-[20px]" />
+            <Icon name="icon-park-outline:minus" style="color: #ef1919" class="text-[20px]" />
           </button>
-          <button class="text-[20px] text-[#00000066] flex items-center">{{ quantity }}</button>
+          <button class="text-[20px] text-gray-800 flex items-center font-bold">{{ quantity }}</button>
           <button class="flex items-center cursor-pointer" @click="quantity++">
-            <Icon name="material-symbols:add-2" style="color: #00000066" class="text-[20px]" />
+            <Icon name="material-symbols:add-2" style="color: #3acb3a" class="text-[20px]" />
           </button>
         </div>
         <Button custom-class="flex-1 max-w-[400px] h-[52px] rounded-[60px]" title="Add to cart"
@@ -73,6 +73,7 @@
 import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
 import ImageZoom from '~/component/image-zoom/image-zoom.vue';
+import { useRouter } from 'vue-router';
 
 const router = useRouter()
 
@@ -115,19 +116,7 @@ const calculateTotalDiscount = ((item) => {
   return item.price - calculatePercentage
 })
 
-// const handleAddToCart = async (item) => {
-//   await $fetch('/api/cart/add-cart', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({
-//       userId: profile.value.id,
-//       products: [{ id: item.id, quantity: quantity.value }]
-//     })
-//   })
-// }
-
 const handleAddToCart = (item, quantity) => {
-  console.log(quantity)
   cartStore.addToCart(item, quantity)
 }
 

@@ -41,7 +41,7 @@
     <Button :loading="loadingButton" class="w-1/3 rounded-[62px]" :disabled="!codeRef || promoCodeValue.length >= 3"
       title="Apply" @click="handleApplyCode" />
   </div>
-  <button class="w-full py-3 px-4 bg-[#000000] text-white rounded-[62px] flex gap-2.5 items-end justify-center">Go to
+  <button @click="handleClickStep" class="w-full py-3 px-4 bg-[#000000] text-white rounded-[62px] flex gap-2.5 items-end justify-center">Go to
     Checkout
     <Icon name="material-symbols:arrow-right-alt" class="text-[20px]" />
   </button>
@@ -50,10 +50,12 @@
 <script setup>
 import Button from '~/component/button/button.vue'
 
+const toast = useToast()
 const props = defineProps({
   cart: Array,
   keyItem: Number,
   totalSubPrice: Function,
+  activeStep: Number
 })
 
 const loadingButton = ref(false)
@@ -61,9 +63,18 @@ const promoCodeValue = ref([])
 const deliveryRef = ref(0)
 const subTotal = ref(0)
 const codeRef = ref('')
+const codeRegex = /^[a-zA-Z0-9]+$/
+
+const emit = defineEmits(['update:activeStep']);
+
+const handleClickStep =() => {
+  console.log('click')
+  emit('update:activeStep', 1);
+}
 
 onMounted(() => {
   subTotal.value = props.totalSubPrice()
+  console.log(props.activeStep)
 })
 
 watch(props.totalSubPrice, (newPrice) => {
@@ -79,6 +90,16 @@ const handleApplyCode = () => {
 }
 
 const checkExitPromo = (itemPromoCode, promoCode) => {
+  if (!codeRegex.test(promoCode)) {
+    toast.add({
+      title: 'An Error Has Occurred',
+      description: 'Promo code does not exist!',
+      color: 'error',
+    })
+    codeRef.value = ''
+    return;
+  }
+
   const mappingItemPromo = itemPromoCode.map(item => item.title)
 
   if (!mappingItemPromo.includes(promoCode)) {
@@ -86,7 +107,18 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
     const randomNumber = initRandom[Math.floor(Math.random() * initRandom.length)]
 
     itemPromoCode.push({ title: promoCode, value: randomNumber })
+
+    toast.add({
+      title: 'Add Promo Code',
+      description: 'Add Promo Code Success!',
+      color: 'primary',
+    })
   } else {
+    toast.add({
+      title: 'An Error Has Occurred',
+      description: 'Promo Code Already Exists!',
+      color: 'error',
+    })
   }
   codeRef.value = ''
   loadingButton.value = false
