@@ -6,7 +6,7 @@
       <b class="text-black">{{formatCurrency(subTotal)}}</b>
     </div>
     <div class="flex justify-between text-[20px] text-[#00000099]">
-      Discount (-20%)
+      Discount (-10%)
       <b class="text-[#FF3333]">-{{ formatCurrency(totalDiscount) }}</b>
     </div>
     <div class="flex justify-between text-[20px] text-[#00000099]">
@@ -18,8 +18,8 @@
         <div>
           Code: <b>{{ promo.title }}</b>
         </div>
-        <div>
-          Discount (<b>- {{ promo.value }}</b>%)
+        <div >
+          Discount (<b class="text-red-500">- {{ promo.value }}%</b>)
         </div>
       </div>
     </div>
@@ -41,19 +41,24 @@
     <Button :loading="loadingButton" class="w-1/3 rounded-[62px]" :disabled="!codeRef || promoCodeValue.length >= 3"
       title="Apply" @click="handleApplyCode" />
   </div>
-  <button class="w-full py-3 px-4 bg-[#000000] text-white rounded-[62px] flex gap-2.5 items-end justify-center">Go to
-    Checkout
+  <Button
+    @click="handleClickStep"
+    :disabled="subTotal === 0"
+    class="w-full py-3 px-5 bg-[#000000] text-white rounded-[62px] flex gap-2.5 items-end justify-center" title="Go shipping">
     <Icon name="material-symbols:arrow-right-alt" class="text-[20px]" />
-  </button>
+  </Button>
 </template>
 
 <script setup>
+import { watch } from 'vue'
 import Button from '~/component/button/button.vue'
 
+const toast = useToast()
 const props = defineProps({
   cart: Array,
   keyItem: Number,
   totalSubPrice: Function,
+  activeStep: Number
 })
 
 const loadingButton = ref(false)
@@ -61,6 +66,13 @@ const promoCodeValue = ref([])
 const deliveryRef = ref(0)
 const subTotal = ref(0)
 const codeRef = ref('')
+const codeRegex = /^[a-zA-Z0-9]+$/
+
+const emit = defineEmits(['update:activeStep', 'update:totalOrder']);
+
+const handleClickStep =() => {
+  emit('update:activeStep', 1);
+}
 
 onMounted(() => {
   subTotal.value = props.totalSubPrice()
@@ -79,6 +91,16 @@ const handleApplyCode = () => {
 }
 
 const checkExitPromo = (itemPromoCode, promoCode) => {
+  if (!codeRegex.test(promoCode)) {
+    toast.add({
+      title: 'An Error Has Occurred',
+      description: 'Promo code does not exist!',
+      color: 'error',
+    })
+    codeRef.value = ''
+    return;
+  }
+
   const mappingItemPromo = itemPromoCode.map(item => item.title)
 
   if (!mappingItemPromo.includes(promoCode)) {
@@ -86,14 +108,25 @@ const checkExitPromo = (itemPromoCode, promoCode) => {
     const randomNumber = initRandom[Math.floor(Math.random() * initRandom.length)]
 
     itemPromoCode.push({ title: promoCode, value: randomNumber })
+
+    toast.add({
+      title: 'Add Promo Code',
+      description: 'Add Promo Code Success!',
+      color: 'primary',
+    })
   } else {
+    toast.add({
+      title: 'An Error Has Occurred',
+      description: 'Promo Code Already Exists!',
+      color: 'error',
+    })
   }
   codeRef.value = ''
   loadingButton.value = false
 }
 
 const totalDiscount = computed(() => {
-  return subTotal.value * (20 / 100)
+  return subTotal.value * (10 / 100)
 })
 
 const totalOrder = computed(() => {
@@ -111,6 +144,12 @@ const totalOrder = computed(() => {
 watch(subTotal, (newSub) => {
   if (newSub > 0) {
     deliveryRef.value = 15
+  }
+})
+
+watch(totalOrder, (newTotalOrder) => {
+  if (newTotalOrder) {
+    emit('update:totalOrder', newTotalOrder)
   }
 })
 </script>

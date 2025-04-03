@@ -1,72 +1,101 @@
 <template>
-  <div class="max-w-96 md:max-w-[78rem] my-0 mx-auto pb-[150px]">
-    <div v-if="dataProducts">
-      <h1 v-if="slug" class="text-2xl">Search result: {{ slug }}</h1>
-      <div class="w-full flex items-center justify-end gap-3 text-[#00000099]">
-        <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
-          Sort by:
-          <div class="relative inline-block">
-            <div @click="isOpen = !isOpen"
-              class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
-              {{ itemFilterRef.name }}
-            </div>
-            <div v-show="isOpen"
-              class="absolute z-[100] mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
-                <li v-for="item in itemFilter" @click="handelFilterItem(item.slug, item.name)">
-                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
-                    item.name }}</a>
-                </li>
-              </ul>
+  <div class="w-full flex justify-center">
+    <div class="max-w-96 md:max-w-[78rem] w-full">
+      <Breadcrumb />
+      <div class="flex gap-5 pb-[300px]" v-if="!isNotFound">
+        <div class="w-1/4">
+          <Categories />
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center justify-between pb-4">
+            <h1 class="font-bold text-[32px]">
+              {{ formatTextSlug(nameCategory) }}
+            </h1>
+            <div class="flex items-center gap-3 text-[#00000099]">
+              <div class="text-[16px] text-[#00000099] flex items-center gap-1.5">
+                Sort by:
+                <div class="relative inline-block">
+                  <div @click="isOpen = !isOpen"
+                    class="text-black  font-bold rounded-lg text-xl menu-container cursor-pointer">
+                    {{ objectFilter.name }}
+                  </div>
+                  <div v-show="isOpen"
+                    class="absolute z-[100] mt-2 w-44 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                      <li v-for="item in itemFilter" @click="handelFilterItem(item.slug, item.name)">
+                        <a href="#"
+                          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{
+                            item.name }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <Icon name="material-symbols:keyboard-arrow-down-rounded" style="color: #000000" class="text-[20px]" />
+              </div>
             </div>
           </div>
-          <Icon name="material-symbols:keyboard-arrow-down-rounded" style="color: #000000" class="text-[20px]" />
+          <ProductCardContainer :data="data" column="3" />
+          <div class="w-full">
+            <Pagination v-model="currentPage" :total-items="totalItems" :limit="limit" @on-click-page="handlePage" />
+          </div>
         </div>
       </div>
-      <ProductCardContainer :data="dataProducts" />
-      <div class="w-full">
-        <Pagination v-model="currentPage" :total-items="totalItems" :limit="limitInit" @on-click-page="handlePage" />
+      <div v-else>
+        <NotFound />
       </div>
-    </div>
-    <div v-else>
-      <NotFound />
     </div>
   </div>
 </template>
 
 <script setup>
+import Breadcrumb from '~/component/breadcrumb/breadcrumb.vue';
+import Categories from '~/component/categories/categories.vue';
 import ProductCardContainer from '~/component/product-card/product-card-container.vue';
-import NotFound from '~/component/not-found/not-found.vue';
 import Pagination from '~/component/pagination/pagination.vue';
+import NotFound from '~/component/not-found/not-found.vue';
+import { apiConfig } from '~/constants/api';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
-const slug = computed(() => route.query.search);
-const dataProducts = ref([])
-const totalItems = ref(0);
-const limitInit = ref(16)
-const currentPage = ref(1);
-const pageRef = ref(0)
-const skip = ref(0)
+const router = useRouter()
+
+const { slug } = route.params
+
 const isOpen = ref(false);
+const isNotFound = ref(false)
+const data = ref([])
+const totalItems = ref(0);
+const limit = ref(9);
+const pageRef = ref(0)
+
+const nameCategory = ref('')
 
 const itemFilter = [
   {
     name: 'Most popular',
-    slug: 'rating',
+    slug: 'asc',
   },
   {
     name: 'Price',
-    slug: 'price',
+    slug: 'desc',
   },
 ]
-const itemFilterRef = reactive({
-  name: 'Most popular',
-  slug: 'rating'
+
+const objectFilter = reactive({
+  name: itemFilter[0].name,
+  slug: itemFilter[0].slug
 })
 
-const handelFilterItem = (slug, name) => {
-  itemFilterRef.name = name
-  itemFilterRef.slug = slug
+const handlePage = (page) => {
+  pageRef.value = page
+};
+
+const currentPage = ref(1);
+
+const closeMenu = (event) => {
+  if (!event.target.closest('.menu-container')) {
+    isOpen.value = false
+  }
 }
 
 onMounted(() => {
@@ -77,64 +106,68 @@ onUnmounted(() => {
   document.removeEventListener('click', closeMenu)
 })
 
-const closeMenu = (event) => {
-  if (!event.target.closest('.menu-container')) {
-    isOpen.value = false
-  }
+const handelFilterItem = (slug, name) => {
+  objectFilter.name = name
+  objectFilter.slug = slug
 }
 
-const handlePage = (page) => {
-  pageRef.value = page
-};
+const fetchDataProduct = async (skip, filter) => {
+  const isCheckProductByCategory = slug === 'sale' || slug === 'popular'
 
-const fetchData = async (newSlug, sortItem) => {
-  const response = await $fetch(newSlug ? '/api/product/search' : '/api/product/getList', {
+  const response = await apiFetch(`${isCheckProductByCategory ? apiConfig.product.getList : apiConfig.product.productByCategory(slug)}`, {
     query: {
-      limit: limitInit.value,
-      skip: skip.value,
-      ...(sortItem ? { sortBy: sortItem } : {}),
-      ...(newSlug ? { q: newSlug } : {}),
-      order: 'asc',
+      ...(isCheckProductByCategory ? { sortBy: slug === 'sale' ? 'discountPercentage' : 'rating' } : {}),
+      ...(filter ? { order: filter } : {}),
+      limit: limit.value,
+      ...(skip ? { skip: skip } : {}),
     }
-  });
- if (!response || response.total === 0) {
-    dataProducts.value = null;
-    totalItems.value = 0;
-  } else {
-    dataProducts.value = response;
-    totalItems.value = response.total;
-  }
-};
+  })
 
-watch(slug, (newSlug) => {
-    currentPage.value = 1
-    skip.value = 0
-  if (newSlug) {
-    fetchData(newSlug)
-  } else {
-    fetchData()
-  }
-}, { immediate: true , deep: true})
+  data.value = response;
+  totalItems.value = response.total
+  nameCategory.value = slug === 'sale' ? 'Sale' : slug === 'popular' ? 'Popular' : response.products?.[0]?.category || slug;
+}
 
-watch(() => itemFilterRef.slug,
-  (itemChange) => {
-    if (itemChange) {
-      currentPage.value = 1
-      skip.value = 0
-      fetchData(null, itemChange)
-    }
-}, {deep: true});
+watch(
+  [() => route.query.skip, () => objectFilter.slug, () => route.query.page],
+  ([newSkip, newFilter, newPage]) => {
+   if (newPage) currentPage.value = +newPage
+    fetchDataProduct(newSkip, newFilter)
+  },
+  { immediate: true }
+)
 
 watch(pageRef, (newPage, oldPage) => {
   if (oldPage !== undefined) {
-    const newSkip = (newPage - 1) * limitInit.value;
+    const newSkip = (newPage - 1) * limit.value;
     if (newSkip >= totalItems.value) {
-      skip.value = totalItems.value - limitInit.value;
+      const skip = totalItems.value - limit.value;
+      router.push({
+        path: slug,
+        query: {
+          page: newPage,
+          skip: skip,
+        }
+      })
     } else {
-      skip.value = newSkip;
+    const skip = newSkip;
+      router.push({
+        path: slug,
+        query: {
+          page: newPage,
+          skip: skip,
+        }
+      })
     }
-    fetchData(null, null);
   }
 });
+
+watch(data, (newData) => {
+  if (!newData?.products || newData?.products.length < 1) {
+    isNotFound.value = true
+  } else {
+    isNotFound.value = false
+  }
+})
 
 </script>

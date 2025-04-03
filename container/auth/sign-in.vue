@@ -20,6 +20,8 @@ import * as yup from 'yup';
 import Input from '~/component/input/input.vue';
 import Cookies from 'js-cookie';
 
+const toast = useToast()
+
 const { errors, defineField, handleSubmit } = useForm({
   validationSchema: yup.object({
     username: yup.string().required(),
@@ -49,9 +51,13 @@ const submitForm = handleSubmit(async (values) => {
     const cookie = Cookies.get('userToken')
 
     if (cookie) {
+      toast.add({
+        title: 'Login',
+        description: 'Login Success!',
+        color: 'primary',
+      })
       setTimeout(() => {
         fetchProfile()
-
         return navigateTo('/')
       }, 1500)
     }

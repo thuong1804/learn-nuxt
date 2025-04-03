@@ -11,7 +11,7 @@ const lengthData = ref(0)
 const limitInit = ref(8)
 
 const getProductsWithByDiscount = async() => {
-  const data = await apiFetch(`${apiConfig.product.getList}?sortBy=discountPercentage&limit=${limitInit.value}`)
+  const data = await apiFetch(`${apiConfig.product.getList}?sortBy=discountPercentage&limit=${limitInit.value}&order=desc`)
   dataProducts.value = data
   lengthData.value = data.total
 }

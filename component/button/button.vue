@@ -1,5 +1,5 @@
 <template>
-  <button title="tool" :type="type"  :class="[computedClass, props.customClass]" :disabled="loading || disabled" @click="handleClick">
+  <button :type="type"  :class="[computedClass, props.customClass]" :disabled="loading || disabled" @click="handleClick">
     <span v-if="loading" class="flex items-center justify-center gap-2">
       <Icon name="line-md:loading-twotone-loop" class="text-[16px]" />
       Loading...
@@ -24,8 +24,8 @@ const emit = defineEmits(["click"]);
 
 const computedClass = computed(() => {
   return [
-    "py-[10px] px-2 font-bold rounded-[5px] transition active:scale-95 flex items-center justify-center",
-    props.disabled || props.loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800 cursor-pointer",
+    "py-[10px] px-2 font-bold rounded-[5px] transition flex items-center justify-center",
+    props.disabled || props.loading ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800 cursor-pointer active:scale-95",
     !props.customClass?.includes("bg-") ? "bg-black text-white" : "",
   ].join(" ")
 })

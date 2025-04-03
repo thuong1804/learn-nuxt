@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { NuxtLayout, NuxtPage } from '#components'
+import { useHead } from 'nuxt/app';
 
+const ToasterProps = {
+  position: "top-right",
+  timeout: 500,
+};
 useHead({
   title: "GoMart",
   link: [
@@ -10,7 +15,7 @@ useHead({
 </script>
 
 <template>
-  <UApp>
+  <UApp :toaster="ToasterProps">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

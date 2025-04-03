@@ -1,11 +1,11 @@
 <template>
   <div class=" w-full py-5 px-6">
     <div class="flex flex-col gap-6 ">
-      <div class="flex gap-1">
-        <NuxtImg :src="item.images[0]" class="w-[125px] rounded-[20px]" />
+      <div class="flex gap-3">
+        <NuxtImg :src="item.thumbnail" class="w-[125px] rounded-[20px]" />
         <div class="flex flex-col flex-1">
           <h4 class="font-bold text-[20px] cursor-pointer" @click="handleRedirect(item.title, item.id)">{{ item.title }}</h4>
-            <div class="flex">
+            <div class="flex flex-wrap">
               Depth:<b class="ml-2"> {{ item.dimensions.depth }} in</b>,
               Height:<b class="ml-2"> {{ item.dimensions.height }} in</b>,
               Width:<b class="ml-2"> {{ item.dimensions.width }} in</b>
@@ -27,17 +27,17 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col items-end justify-between ">
+        <div class="flex flex-col items-end justify-between" v-if="updateQuantity">
           <div class="cursor-pointer" @click="removeCart(item.id)">
             <Icon name="streamline:recycle-bin-2-solid" style="color: #FF3333" class="text-[20px]" />
           </div>
           <div class="bg-[#F0F0F0]  text-[#00000066] rounded-[62px] flex items-center justify-between w-[140px] py-[8px] px-5 ">
             <button class="flex items-center cursor-pointer" @click="quantity = Math.max(1, quantity - 1)">
-              <Icon name="icon-park-outline:minus" style="color: #00000066" class="text-[20px]" />
+              <Icon name="icon-park-outline:minus" style="color: #ef1919" class="text-[20px]" />
             </button>
-            <button class="text-[20px] text-[#00000066] flex items-center">{{ quantity }}</button>
+            <button class="text-[20px] text-gray-800 flex items-center font-bold">{{ quantity }}</button>
             <button class="flex items-center cursor-pointer" @click="quantity++">
-              <Icon name="material-symbols:add-2" style="color: #00000066" class="text-[20px]" />
+              <Icon name="material-symbols:add-2" style="color: #3acb3a" class="text-[20px]" />
             </button>
           </div>
         </div>
@@ -73,7 +73,9 @@ onMounted(() =>{
 })
 
 watch(quantity, (newVal) => {
- props.updateQuantity(props.item.id, newVal)
+  if (props.updateQuantity) {
+    props.updateQuantity(props.item.id, newVal)
+  }
 })
 
 </script>
