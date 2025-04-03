@@ -4,7 +4,7 @@ import { useHead } from 'nuxt/app';
 
 const ToasterProps = {
   position: "top-right",
-  timeout: 2000,
+  timeout: 500,
 };
 useHead({
   title: "GoMart",

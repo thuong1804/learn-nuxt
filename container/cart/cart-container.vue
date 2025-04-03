@@ -18,17 +18,17 @@
               </div>
             </div>
             <div class="w-[40%] border rounded-[20px] py-5 px-6 border-[#0000001A] flex flex-col gap-5 h-max">
-              <CartOrder v-model:activeStep="activeStep" :cart="cartStore.cart" :total-sub-price="cartStore.totalPrice" />
+              <CartOrder  @update:totalOrder="receiveTotalOder"   v-model:activeStep="activeStep" :cart="cartStore.cart" :total-sub-price="cartStore.totalPrice" />
             </div>
           </div>
         </div>
         <div v-else>
-          <Checkout/>
+          <InformationShipping v-model:activeStep="activeStep" :totalPrice="totalOrderRef"/>
         </div>
       </div>
     </div>
     <div class="max-w-96 md:max-w-[78rem] w-full mt-[50px]">
-      <UStepper :items="items" class="w-full" @update:modelValue="handleStepChange" />
+      <UStepper disabled v-model="activeStep" :items="items" class="w-full" @update:modelValue="handleStepChange" />
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ import CartItem from '~/container/cart/cart-item.vue';
 import CartOrder from './cart-order.vue';
 import Button from '~/component/button/button.vue';
 import Breadcrumb from '~/component/breadcrumb/breadcrumb.vue';
-import Checkout from './checkout.vue';
+import InformationShipping from './information-shipping.vue';
 
 const activeStep = ref(0)
 
@@ -55,13 +55,20 @@ const items = ref([
   },
   {
     title: 'Checkout',
-    description: 'Confirm your order'
+    description: 'Confirm your order',
+    icon: 'carbon:wireless-checkout'
   }
 ])
 
 const handleStepChange = (index, value) => {
   activeStep.value = index
 };
+
+const totalOrderRef = ref(0)
+
+const receiveTotalOder = (value) => {
+  totalOrderRef.value = value
+}
 
 const cartStore = useCartStore()
 

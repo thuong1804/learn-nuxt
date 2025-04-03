@@ -2,8 +2,10 @@
   <div class="w-full flex items-center justify-center h-full mt-[20px] pb-[150px]">
     <div class="flex h-full border w-1/2 rounded-[20px] border-[#00000066] justify-around">
       <div class="w-1/2 flex flex-col items-center gap-2">
-        <NuxtImg  v-if="profile?.image" :src="profile.image" class="w-[250px] h-[200px] object-contain" />
-        <Button title="Upload avatar" class="bg-cyan-900"/>
+        <NuxtImg v-if="profile?.image" :src="profile.image" class="w-[250px] h-[200px] object-contain" />
+        <UTooltip text="Feature in Development">
+          <Button title="Upload avatar" class="bg-cyan-900" disabled/>
+        </UTooltip>
       </div>
       <div class="flex flex-col flex-1 w-full gap-10 py-8 px-6  border-[#00000066]  border-l-2">
         <h1 class="text-[30px] font-bold text-center">Profile</h1>
@@ -19,7 +21,9 @@
           <Input v-model="country" type="text" placeholder="Address" :error="errors.country"
             :inputAttrs="countryAttrs" />
           <Input v-model="gender" type="text" placeholder="Gender" :error="errors.gender" :inputAttrs="genderAttrs" />
-          <Button type="submit" class="w-full text-[18px] mt-[20px]" title="Update Profile" />
+          <UTooltip text="Feature in Development">
+            <Button type="submit" class="w-full text-[18px] mt-[20px]" title="Update Profile" disabled/>
+          </UTooltip>
         </form>
       </div>
     </div>

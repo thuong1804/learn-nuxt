@@ -22,6 +22,7 @@
 
 <script setup>
 const { sendEmail, success } = useEmail();
+const toast = useToast()
 
 const form = reactive({
   email: '',
@@ -38,14 +39,23 @@ const handleSubmit = async (e) => {
       subject: "New Contact Message",
       message: form.message
     });
-    console.log(success)
 
     if (success.value) {
       form.email = '';
       form.message = '';
+      toast.add({
+        title: 'Send Email',
+        description: 'Send Email Success!',
+        color: 'primary',
+      })
     }
   } catch (err) {
     console.error('Failed to send email:', err);
+    toast.add({
+      title: 'An Error Has Occurred',
+      description: err,
+      color: 'error',
+    })
   }
 };
 

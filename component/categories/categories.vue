@@ -83,7 +83,9 @@
         <Checkbox/>
       </div>
       <div class="w-full pt-6 pb-2.5">
-        <Button class="w-full rounded-[62px]" title="Apply filter"/>
+        <UTooltip text="Feature in Development">
+          <Button class="w-full rounded-[62px]" title="Apply filter" disabled/>
+        </UTooltip>
       </div>
     </div>
   </div>

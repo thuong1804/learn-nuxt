@@ -1,8 +1,8 @@
 <template>
   <div class=" w-full py-5 px-6">
     <div class="flex flex-col gap-6 ">
-      <div class="flex gap-1">
-        <NuxtImg :src="item.images[0]" class="w-[125px] rounded-[20px]" />
+      <div class="flex gap-3">
+        <NuxtImg :src="item.thumbnail" class="w-[125px] rounded-[20px]" />
         <div class="flex flex-col flex-1">
           <h4 class="font-bold text-[20px] cursor-pointer" @click="handleRedirect(item.title, item.id)">{{ item.title }}</h4>
             <div class="flex flex-wrap">
@@ -73,7 +73,9 @@ onMounted(() =>{
 })
 
 watch(quantity, (newVal) => {
- props.updateQuantity(props.item.id, newVal)
+  if (props.updateQuantity) {
+    props.updateQuantity(props.item.id, newVal)
+  }
 })
 
 </script>
