@@ -1,66 +1,80 @@
 <template>
   <div class="w-full flex items-center justify-center h-full mt-[20px] pb-[150px]">
-    <div class="flex flex-col max-w-[400px] w-full gap-10 border py-8 px-6 rounded-[20px] border-[#00000066]">
-      <h1 class="text-[30px] font-bold text-center">Login</h1>
+    <div class="flex flex-col max-w-[500px] w-full gap-7 py-8 px-6 rounded-[20px] border-[#00000066] shadow-2xl bg-[#f4f9ff]">
+      <h1 class="text-[30px] font-bold text-center">Signin</h1>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10" />
-      <form class="flex flex-col gap-7" @submit="submitForm">
-        <Input v-model="username" type="text" placeholder="username" :error="errors.username" :inputAttrs="usernameAttrs" />
-        <Input v-model="password" type="password" placeholder="Password" :error="errors.password"
-          :inputAttrs="passwordAttrs" />
-        <Button type="submit" class="w-full rounded-[60px] text-[18px]"  title="Login" />
-      </form>
+      <UForm :schema="schema" :state="state" class="flex flex-col gap-7 w-full" @submit="onSubmit" @error="onError">
+        <UFormField label="Email" required size="xl">
+          <UInput placeholder="Email..." class="w-full" v-model="state.email" type="email" />
+        </UFormField>
+        <UFormField label="Password" name="password" size="xl" required>
+          <UInput placeholder="Password..." v-model="state.password" type="password" class="w-full" />
+        </UFormField>
+        <div class="w-full flex justify-center text-blue-600 font-medium">Forget password?</div>
+        <Button type="submit" class="w-full rounded-[10px] text-[18px]" title="Login" />
+      </UForm>
+      <div class="w-full flex justify-center gap-1 font-medium ">Don't have an account?
+        <NuxtLink to="/auth/signup" class="text-blue-600 cursor-pointer hover:text-blue-800">Signup
+        </NuxtLink>
+      </div>
+      <div class="pb-4 relative">
+        <Divider />
+        <span
+          class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#f4f9ff] px-2 text-xl text-gray-500">OR</span>
+      </div>
+      <button class="w-full border border-gray-300 rounded-[10px] py-4 px-2
+      flex items-center gap-2 justify-center text-gray-600 hover:border-blue-400 cursor-pointer transition-all font-medium">
+        <Icon name="devicon:google" style="color: #ef1919" class="text-[20px]" /> Login with Google
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import Button from '~/component/button/button.vue';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import Input from '~/component/input/input.vue';
-import Cookies from 'js-cookie';
+import { object, string } from 'yup';
+import Divider from '~/component/divider/divider.vue';
 
 const toast = useToast()
 
-const { errors, defineField, handleSubmit } = useForm({
-  validationSchema: yup.object({
-    username: yup.string().required(),
-    password: yup.string().min(6).required(),
-  }),
-  initialValues: {
-    username: 'emilys',
-    password: 'emilyspass'
+const schema = object({
+  email: string().email('Invalid email').required('Required'),
+  password: string()
+    .min(6, 'Must be at least 8 characters')
+    .required('Required')
+})
+
+const state = reactive({
+  email: 'anhHung@example.com',
+  password: '123456'
+})
+
+async function onError(event) {
+  console.log(event)
+  if (event?.errors?.[0]?.id) {
+    const element = document.getElementById(event.errors[0].id)
+    element?.focus()
+    element?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
-});
+}
 
-const [username, usernameAttrs] = defineField('username');
-const [password, passwordAttrs] = defineField('password');
-const {fetchProfile} = useProfile()
+async function onSubmit(event) {
+  const { email, password } = event.data
 
-const submitForm = handleSubmit(async (values) => {
-
-  const response = await $fetch('/api/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: { username: values.username, password: values.password ,  expiresInMins: 60,}
-  });
-
-  if (response) {
-    Cookies.set('userToken', response.accessToken, { expires: 30 })
-    Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
-    const cookie = Cookies.get('userToken')
-
-    if (cookie) {
-      toast.add({
-        title: 'Login',
-        description: 'Login Success!',
-        color: 'primary',
-      })
-      setTimeout(() => {
-        fetchProfile()
-        return navigateTo('/')
-      }, 1500)
+  try {
+    const response = await $fetch('http://localhost:3005/api/login', {
+      method: 'POST',
+      body: { email: email, password: password },
+      credentials: 'include'
+    });
+    if (response.result) {
+      toast.add({ title: 'Success', description: 'Login success.', color: 'success' })
+      navigateTo('/')
+    }
+  } catch (error) {
+    if (error) {
+      toast.add({ title: 'Login failed', description: 'Incorrect account or password, please log in again!', color: 'error' })
     }
   }
-});
+}
 </script>

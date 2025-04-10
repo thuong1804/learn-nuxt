@@ -1,12 +1,15 @@
+import { useRequestHeaders, useRuntimeConfig } from "nuxt/app"
+
 export function useProfile() {
   const profile = useState('profile', () => null)
-  const cookie = useCookie('userToken')
+  const runtimeConfig = useRuntimeConfig()
 
   const fetchProfile = async() => {
-    const data = await $fetch('/api/auth/profile', {
+    const headers = useRequestHeaders(['cookie'])
+    const data = await $fetch(`${runtimeConfig.public.URL_API}/api/profile`, {
       method: 'GET',
-      headers: {'Authorization' : `Bearer ${cookie.value}` },
-      credentials: 'include'
+      credentials: 'include',
+      headers
     })
     profile.value = data
   }

@@ -133,7 +133,7 @@ const schema = object({
   country: string().required('Country required'),
   city: string().required('City required'),
   address: string().required('Address required'),
-  phone: number().required('Phone number required'),
+  phone: string().required('Phone number required').min(8).max(15),
 })
 
 const state = reactive({

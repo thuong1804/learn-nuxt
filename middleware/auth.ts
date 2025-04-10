@@ -1,7 +1,10 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  const token = useCookie('userToken')
+import { defineNuxtRouteMiddleware, navigateTo, useCookie } from "nuxt/app"
+import { useProfile } from "../composables/useProfile"
 
-   if (!token.value) {
+export default defineNuxtRouteMiddleware(async (to, from) => {
+  const { profile } = useProfile()
+
+  if (!profile.value) {
     return navigateTo('/auth/signin')
   }
 })

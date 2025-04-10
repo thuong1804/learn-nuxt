@@ -4,27 +4,41 @@
       <div class="w-1/2 flex flex-col items-center gap-2">
         <NuxtImg v-if="profile?.image" :src="profile.image" class="w-[250px] h-[200px] object-contain" />
         <UTooltip text="Feature in Development">
-          <Button title="Upload avatar" class="bg-cyan-900" disabled/>
+          <Button title="Upload avatar" class="bg-cyan-900" disabled />
         </UTooltip>
       </div>
       <div class="flex flex-col flex-1 w-full gap-10 py-8 px-6  border-[#00000066]  border-l-2">
         <h1 class="text-[30px] font-bold text-center">Profile</h1>
         <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10" />
-        <form class="flex flex-col gap-3" @submit="submitForm">
-          <Input v-model="username" type="text" placeholder="Username" :error="errors.username"
-            :inputAttrs="usernameAttrs" />
-          <Input v-model="email" type="text" placeholder="Email" :error="errors.email" :inputAttrs="emailAttrs" />
-          <Input v-model="birthDate" type="datetime" placeholder="Birth Date" :error="errors.birthDate"
-            :inputAttrs="birthDateAttrs" />
-          <Input v-model="address" type="text" placeholder="Address" :error="errors.address"
-            :inputAttrs="addressAttrs" />
-          <Input v-model="country" type="text" placeholder="Address" :error="errors.country"
-            :inputAttrs="countryAttrs" />
-          <Input v-model="gender" type="text" placeholder="Gender" :error="errors.gender" :inputAttrs="genderAttrs" />
+        <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+          <UFormField label="First name" size='xl' name="firstName">
+            <UInput class="w-full" v-model="state.firstName" />
+          </UFormField>
+
+          <UFormField label="Email" n size='xl' ame="email">
+            <UInput class="w-full" v-model="state.email" />
+          </UFormField>
+
+          <UFormField label="Birthday" size='xl'name="birthDate">
+            <UInput class="w-full" v-model="state.birthDate" type="date"/>
+          </UFormField>
+
+          <UFormField label="Address" size='xl' name="address">
+            <UInput class="w-full" v-model="state.address" />
+          </UFormField>
+
+          <UFormField label="Country" size='xl' name="country">
+            <UInput class="w-full" v-model="state.country" />
+          </UFormField>
+
+          <UFormField label="Gender" size='xl' name="gender">
+            <UInput class="w-full" v-model="state.gender" />
+          </UFormField>
+
           <UTooltip text="Feature in Development">
-            <Button type="submit" class="w-full text-[18px] mt-[20px]" title="Update Profile" disabled/>
+            <Button type="submit" class="w-full text-[18px] mt-[20px]" title="Update Profile"/>
           </UTooltip>
-        </form>
+        </UForm>
       </div>
     </div>
   </div>
@@ -32,59 +46,46 @@
 
 <script setup>
 import Button from '~/component/button/button.vue';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import Input from '~/component/input/input.vue';
-import { useProfile } from '~/composables/useProfile';
+import { object, string } from 'yup';
 
+import { useProfile } from '../../composables/useProfile';
+const toast = useToast()
 const { profile } = useProfile()
 
-const { errors, defineField, handleSubmit } = useForm({
-  validationSchema: yup.object({
-    username: yup.string().required(),
-    email: yup.string().email().required(),
-    address: yup.string().required(),
-    country: yup.string().required(),
+const schema = object({
+  firstName: string().required('First name is required'),
+  lastName: string().required('Last name is required'),
+  email: string().email('Invalid email').required('Email is required'),
+  birthDate: string().required('Birth date is required'),
+  gender: string().required('Gender is required'),
+  address: string().required('Address is required'),
+  country: string().required('Country is required')
+});
 
-  }),
-  initialValues: {
-    username: profile.value?.username,
-    email: profile.value?.email,
-    birthDate: profile.value?.birthDate,
-    gender: profile.value?.gender,
-    address: profile.value?.address?.address,
-    country: profile.value?.address?.country
+const state = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  birthDate: '',
+  gender: '',
+  address: '',
+  country: ''
+})
+
+watch(profile, (newProfile) => {
+  if (newProfile) {
+    state.firstName = newProfile.user?.firstName ?? ''
+    state.lastName = newProfile.user?.lastName ?? ''
+    state.email = newProfile.user?.email ?? ''
+    state.birthDate = newProfile.user?.birthDate ?? ''
+    state.gender = newProfile.user?.gender ?? ''
+    state.address = newProfile.address?.address ?? ''
+    state.country = newProfile.address?.country ?? ''
   }
-});
+}, { immediate: true })
 
-const [username, usernameAttrs] = defineField('username');
-const [address, addressAttrs] = defineField('address');
-const [birthDate, birthDateAttrs] = defineField('birthDate');
-const [email, emailAttrs] = defineField('email');
-const [gender, genderAttrs] = defineField('gender');
-const [country, countryAttrs] = defineField('country');
-
-
-const submitForm = handleSubmit(async (values) => {
-  console.log(values)
-  // const response = await $fetch('/api/auth/login', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: { username: values.username, password: values.password ,  expiresInMins: 60,}
-  // });
-
-  // if (response) {
-  //   Cookies.set('userToken', response.accessToken, { expires: 30 })
-  //   Cookies.set('refreshToken', response.refreshToken, { expires: 7 })
-
-  //   const cookie = Cookies.get('userToken')
-  //   console.log(cookie)
-
-  //   if (cookie) {
-  //     setTimeout(() => {
-  //       return navigateTo('/')
-  //     }, 1500)
-  //   }
-  // }
-});
+async function onSubmit(event) {
+  toast.add({ title: 'Success', description: 'The form has been submitted.', color: 'success' })
+  console.log(event.data)
+}
 </script>

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API_URL: process.env.API_URL || "https://dummyjson.com",
+      URL_API: process.env.URL_API || "http://localhost:3005",
     },
   },
   compatibilityDate: '2024-11-01',

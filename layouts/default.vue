@@ -9,9 +9,9 @@
 </template>
 
 <script setup>
+
 import Footer from './footer-layout/footer.vue';
 import Header from './header-layout/header.vue';
-
 const route = useRoute()
 
 useHead({
