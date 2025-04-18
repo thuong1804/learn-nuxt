@@ -21,13 +21,23 @@
 </template>
 
 <script setup>
+import { useEmail } from '~/composables/useEmail';
+import { emailTemplate } from '~/utils';
 const { sendEmail, success } = useEmail();
+const config = useRuntimeConfig();
+
 const toast = useToast()
 
 const form = reactive({
   email: '',
   message: 'Hello'
 });
+
+const emailHtml = emailTemplate
+    .replace("{{store_link}}", config.public.URL_PRODUCT)
+    .replace("{{name}}", 'User')
+    .replace("{{subject}}", 'New Contact Message')
+    .replace("{{message}}", form.message.replace(/\n/g, "<br>"));
 
 const handleSubmit = async (e) => {
   e.preventDefault()
@@ -37,7 +47,8 @@ const handleSubmit = async (e) => {
       to: form.email,
       name: "User",
       subject: "New Contact Message",
-      message: form.message
+      message: form.message,
+      html: emailHtml
     });
 
     if (success.value) {

@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     public: {
       API_URL: process.env.API_URL || "https://dummyjson.com",
       URL_API: process.env.URL_API || "http://localhost:3005",
+      URL_PRODUCT: process.env.URL_PRODUCT || "https://go-mart.vercel.app",
     },
   },
   compatibilityDate: '2024-11-01',

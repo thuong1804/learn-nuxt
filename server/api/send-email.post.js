@@ -1,10 +1,9 @@
 
 import nodemailer from 'nodemailer';
-import { emailTemplate } from '~/utils';
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
-    const { name, subject, message, to } = body;
+    const { name, subject, message, to, html } = body;
 
     if (!to) {
       return {
@@ -23,17 +22,11 @@ export default defineEventHandler(async (event) => {
       }
     });
 
-    const emailHtml = emailTemplate
-    .replace("{{store_link}}", process.env.URL_PRODUCT)
-    .replace("{{name}}", name)
-    .replace("{{subject}}", subject)
-    .replace("{{message}}", message.replace(/\n/g, "<br>"));
-
     const info = await transporter.sendMail({
       from: process.env.EMAIL_FROM ||  '"GoMart" <no-reply@gomart.com>',
       to,
       subject,
-      html: emailHtml
+      html: html
     });
 
     console.log('Email sent successfully:', info.messageId);

@@ -22,9 +22,9 @@
         <span
           class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#f4f9ff] px-2 text-xl text-gray-500">OR</span>
       </div>
-      <button class="w-full border border-gray-300 rounded-[10px] py-4 px-2
-      flex items-center gap-2 justify-center text-gray-600 hover:border-blue-400 cursor-pointer transition-all font-medium">
-        <Icon name="devicon:google" style="color: #ef1919" class="text-[20px]" /> Login with Google
+      <button class="w-full border-2 border-gray-300 rounded-[10px] py-4 px-2
+      flex items-center gap-2 justify-center text-gray-600 hover:border-blue-400 cursor-pointer transition-all font-medium text-[18px]">
+        <Icon name="devicon:google" style="color: #ef1919" class="text-[25px]" /> Login with Google
       </button>
     </div>
   </div>
@@ -67,13 +67,17 @@ async function onSubmit(event) {
       body: { email: email, password: password },
       credentials: 'include'
     });
+
     if (response.result) {
       toast.add({ title: 'Success', description: 'Login success.', color: 'success' })
       navigateTo('/')
     }
+
   } catch (error) {
-    if (error) {
+    if (error.data?.code) {
       toast.add({ title: 'Login failed', description: 'Incorrect account or password, please log in again!', color: 'error' })
+    } else {
+      toast.add({ title: 'Login failed', description: 'Server error, please log in again!', color: 'error' })
     }
   }
 }
