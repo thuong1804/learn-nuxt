@@ -74,7 +74,8 @@ async function onSubmit(event) {
     }
 
   } catch (error) {
-    if (error.data?.code) {
+    console.log({error})
+    if (error.data?.statusCode) {
       toast.add({ title: 'Login failed', description: 'Incorrect account or password, please log in again!', color: 'error' })
     } else {
       toast.add({ title: 'Login failed', description: 'Server error, please log in again!', color: 'error' })

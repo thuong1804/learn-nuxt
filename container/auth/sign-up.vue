@@ -33,12 +33,8 @@
 <script setup>
 import Button from '~/component/button/button.vue';
 import { object, string, ref } from 'yup';
-import { emailTemplateVerify } from '~/utils';
-import { useEmail } from '~/composables/useEmail';
 
 const toast = useToast()
-const { sendEmail, success } = useEmail();
-const config = useRuntimeConfig();
 
 const schema = object({
   email: string().email('Invalid email').required('Email required'),
@@ -64,11 +60,6 @@ const serverErrors = reactive({
   email: ''
 })
 
-const emailHtml = emailTemplateVerify
-.replace("{{name}}", 'User')
-  .replace("{{verify_link}}", `${config.public.URL_PRODUCT}/auth/signin`)
-  .replace("{{store_name}}", 'Your E-Commerce Store')
-	
 async function onSubmit(event) {
   const {firstName, lastName, email, password } = event.data
  	serverErrors.email = ''
@@ -79,34 +70,14 @@ async function onSubmit(event) {
       body: { firstName, lastName, email, password },
       credentials: 'include'
     });
-		console.log(response)
 
 		if (response.data.result) {
 			toast.add({ title: 'Success', description: 'Register success.', color: 'success' });
-			navigateTo('/auth/active-email');
-
-			await sendEmail({
-				to: state.email,
-				name: "User",
-				subject: "New Account Activation",
-				message: 'Hello',
-				html: emailHtml
-			});
-
-			if (success.value) {
-				toast.add({
-					title: 'Send Email',
-					description: 'Send Email Success!',
-					color: 'primary',
-				})
-			}
+			navigateTo('/auth/send-email-active');
     }
   } catch (error) {
-    console.log({ error });
-
-    if (error.data.statusCode === 409) {
+    if (error.data?.statusCode === 409) {
 			serverErrors.email = 'Email already exists'
-			console.log(emailExist)
     } else {
       toast.add({ title: 'Register failed', description: 'Server Error!', color: 'error' });
     }
