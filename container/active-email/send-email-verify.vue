@@ -8,14 +8,12 @@
       <div class="w-full flex justify-center font-medium text-[13px] ">A confirmation link has been sent to your
         email. To log in, check your inbox.</div>
       <div class="w-full flex justify-center">
-        <button
-          class="flex justify-center font-medium text-[13px] border-gray-400 border px-4 py-2 rounded-[5px] cursor-pointer hover:border-amber-800">
-          Resend link
-        </button>
+        <ButtonSendEmail/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import ButtonSendEmail from './button-send-email.vue';
 </script>
