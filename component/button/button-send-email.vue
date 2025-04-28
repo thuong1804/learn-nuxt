@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="isCountingRef" class="flex justify-center items-center font-medium text-[13px] border px-4 py-2 rounded-[5px] cursor-pointer 
+  <button type="button" :disabled="isCountingRef" class="flex justify-center items-center font-medium text-[13px] border px-4 py-2 rounded-[5px] cursor-pointer 
           transition-all duration-300 ease-in-out
          border-gray-400 text-gray-700 hover:border-amber-800 hover:text-amber-800
          disabled:bg-gray-300 disabled:text-gray-500 disabled:border-gray-300 disabled:cursor-not-allowed"
@@ -8,11 +8,15 @@
   </button>
 </template>
 
-
 <script setup>
 
 const timeLeftRef = ref(60)
 const isCountingRef = ref(false)
+
+const props = defineProps({
+  actionSendEmail: Object,
+  localKey: String
+})
 
 onMounted(() => {
   const savedTimeLeft = localStorage.getItem('timeLeft');
@@ -45,11 +49,24 @@ const handleTimeLeft = () => {
   return () => clearInterval(timer);
 };
 
-const onClickButtonResendLink = () => {
+const onClickButtonResendLink = async() => {
   if (!isCountingRef.value) {
     isCountingRef.value = true;
     timeLeftRef.value = 60;
+
     handleTimeLeft();
+
+    const storedUserInfo = JSON.parse(localStorage.getItem(props.localKey));
+    const { firstName, lastName, email } = storedUserInfo;
+
+    await $fetch(`${props.actionSendEmail.emailApi}`, {
+      method: "POST",
+      body: {
+        firstName,
+        lastName,
+        email
+      }
+    })
   }
 };
 

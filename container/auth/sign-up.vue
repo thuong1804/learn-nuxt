@@ -72,8 +72,15 @@ async function onSubmit(event) {
     });
 
 		if (response.data.result) {
+      const userInfo = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      };
+
 			toast.add({ title: 'Success', description: 'Register success.', color: 'success' });
 			navigateTo('/auth/send-email-active');
+      localStorage.setItem( 'userInfo', JSON.stringify(userInfo));
     }
   } catch (error) {
     if (error.data?.statusCode === 409) {

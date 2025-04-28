@@ -10,7 +10,7 @@
         <UFormField label="Password" name="password" size="xl" required>
           <UInput placeholder="Password..." v-model="state.password" type="password" class="w-full" />
         </UFormField>
-        <div class="w-full flex justify-center text-blue-600 font-medium">Forget password?</div>
+        <NuxtLink to="/auth/forget-password" class="w-full flex justify-center text-blue-600 font-medium">Forget password?</NuxtLink>
         <Button type="submit" class="w-full rounded-[10px] text-[18px]" title="Login" />
       </UForm>
       <div class="w-full flex justify-center gap-1 font-medium ">Don't have an account?

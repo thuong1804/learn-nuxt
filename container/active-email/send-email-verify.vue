@@ -8,12 +8,15 @@
       <div class="w-full flex justify-center font-medium text-[13px] ">A confirmation link has been sent to your
         email. To log in, check your inbox.</div>
       <div class="w-full flex justify-center">
-        <ButtonSendEmail/>
+        <ButtonSendEmail :actionSendEmail={emailApi} :localKey="'userInfo'"/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import ButtonSendEmail from './button-send-email.vue';
+import ButtonSendEmail from '../../component/button/button-send-email.vue';
+const config = useRuntimeConfig();
+
+const emailApi = `${config.public.URL_API}/api/resend-active-email`
 </script>
