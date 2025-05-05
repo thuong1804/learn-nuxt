@@ -1,11 +1,11 @@
 <template>
-<Profile/>
+  <Profile />
 </template>
 
 <script setup>
 
 useHead({
-  title: 'profile' ,
+  title: 'profile',
   link: [
     { rel: 'icon', type: 'image/png', href: '/icon-shop.png' }
   ]

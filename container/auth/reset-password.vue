@@ -21,7 +21,9 @@
 
 <script setup>
 import Button from '~/component/button/button.vue';
-import { object, string } from 'yup';
+import { object, string, ref } from 'yup';
+
+const config = useRuntimeConfig();
 const toast = useToast()
 
 const schema = object({
@@ -39,21 +41,25 @@ const state = reactive({
 })
 
 async function onSubmit(event) {
-  const { email } = event.data
-  serverErrors.email = ''
+  const { password, confirmPassword } = event.data
+  const emailJson  = localStorage.getItem('emailInfo')
+  const parsed = JSON.parse(emailJson);
+  const email = parsed.email
 
   try {
-    const response = await $fetch('http://localhost:3005/api/check-exit-user', {
-      method: 'POST',
-      body: { email: email},
-      credentials: 'include'
+    const response = await $fetch(`${config.public.URL_API}/api/reset-password`, {
+      method: 'PUT',
+      body: {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      },
     });
-    console.log(response)
 
-    // if (response.result) {
-    //   toast.add({ title: 'Success', description: 'Login success.', color: 'success' })
-    //   navigateTo('/')
-    // }
+    if (response.result) {
+      localStorage.setItem('isCheckNavigateResetPassword', true)
+      navigateTo('/auth/password-changed')
+    }
 
   } catch (error) {
     console.log({error})

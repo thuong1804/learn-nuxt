@@ -43,9 +43,10 @@
 <script setup>
 import Button from '~/component/button/button.vue';
 import { object, string } from 'yup';
-import { computed, ref, watch } from 'vue';
+import { ref } from 'vue';
 import ButtonSendEmail from '../../component/button/button-send-email.vue';
 import { navigateTo } from 'nuxt/app';
+
 const config = useRuntimeConfig();
 
 const emailApi = `${config.public.URL_API}/api/check-exit-user`
@@ -54,7 +55,7 @@ const toast = useToast()
 const isSendCode = ref(false)
 
 const schema = object({
-  email: string().email('Invalid email').required('Required'),
+  email: string().email('Invalid email').required('Email required'),
 })
 
 
@@ -73,7 +74,7 @@ async function onSubmitSendEmail(event) {
   serverErrors.email = ''
 
   try {
-    const response = await $fetch('http://localhost:3005/api/check-exit-user', {
+    const response = await $fetch(`${config.public.URL_API}/api/check-exit-user`, {
       method: 'POST',
       body: { email: email },
       credentials: 'include'
@@ -97,7 +98,7 @@ async function onSubmitSendEmail(event) {
 async function onSubmitOTP(event) {
   const {inputOtp} = event.data
   try {
-    const response = await $fetch('http://localhost:3005/api/check-auth-otp', {
+    const response = await $fetch(`${config.public.URL_API}/api/check-auth-otp`, {
       method: 'POST',
       body: { email: state.email, otp: inputOtp.join('') },
       credentials: 'include'

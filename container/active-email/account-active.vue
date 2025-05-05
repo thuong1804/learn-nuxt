@@ -25,6 +25,7 @@
 <script setup>
 import { onMounted } from 'vue'
 
+const config = useRuntimeConfig();
 const route = useRoute()
 const token = route.query.token
 const nameUser = ref()
@@ -32,7 +33,7 @@ const nameUser = ref()
 onMounted(async () => {
   if (token) {
     try {
-     const data = await $fetch('http://localhost:3005/api/active-account', {
+     const data = await $fetch(`${config.public.URL_API}/api/active-account`, {
         method: 'POST',
         body: { token }
       })
