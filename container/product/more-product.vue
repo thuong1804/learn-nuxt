@@ -1,6 +1,6 @@
 <template>
   <div class="pb-[100px]">
-    <ProductCardContainer title="You Might Also" :data="dataProducts"/>
+    <ProductCardContainer title="You Might Also" v-if="dataProducts" :data="dataProducts"/>
   </div>
 </template>
 

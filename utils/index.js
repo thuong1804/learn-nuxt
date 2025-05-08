@@ -22,7 +22,7 @@ export const formatSlugUrl = (slug) => {
 
 const getApiUrl = (path) => {
   const config = useRuntimeConfig();
-  return `${config.public.API_URL}${path}`;
+  return `${config.public.URL_API}${path}`;
 };
 
 export const apiFetch = async (endpoint, options, method = 'GET') => {

@@ -3,8 +3,8 @@
     <div class="max-w-96 md:max-w-[78rem] w-full">
       <Breadcrumb />
     </div>
-    <DetailProduct v-if="data" :item="data"/>
-    <TabsDetailProduct :item="data" v-if="data"/>
+    <DetailProduct v-if="data && data.data" :item="data.data" />
+    <TabsDetailProduct v-if="data && data.data" :item="data.data" />
     <MoreProduct />
   </div>
 </template>
@@ -17,7 +17,15 @@ import MoreProduct from "~/container/product/more-product.vue";
 import Breadcrumb from "~/component/breadcrumb/breadcrumb.vue";
 
 const route = useRoute()
-const id = route.params.slug.split("-p-").pop()
 
-const {data} = await useFetch(`/api/product/${id}/product-detail`, {server: true})
+const slug = route.params.slug
+
+const match = slug?.match(/-p-([a-f\d]{24})$/)
+const id = match?.[1]
+
+if (!id) {
+  throw createError({ statusCode: 404, message: 'Product not found' })
+}
+
+const { data } = await useFetch(`/api/product/${id}/product-detail`, { server: true })
 </script>

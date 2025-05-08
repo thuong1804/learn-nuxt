@@ -33,6 +33,7 @@ import { watchEffect } from 'vue';
 import { useProfile } from '../../composables/useProfile';
 import Navbar from './navbar.vue';
 import Searchbar from '~/component/search-bar/searchbar.vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute()
 const router = useRouter()
@@ -60,17 +61,18 @@ onMounted(() => {
 const submitSearch = (value) => {
   if (value) {
     router.push({
-      path: '/shop',
+      path: '/sale',
       query: { search: value }
     });
   } else {
-    router.push('/shop')
+    router.push('/sale')
   }
 }
 
 watch(cart, (newCart) => {
   countItem.value = newCart.length
 }, { deep: true })
+
 
 const handelLogout = async () => {
   try {

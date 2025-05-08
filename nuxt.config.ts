@@ -5,6 +5,11 @@ export default defineNuxtConfig({
   // app: {
   //   pageTransition: { name: 'page', mode: 'default' }
   // },
+  alias: {
+    '~/components': '/components',
+    '~/assets': '/assets',
+    '~/images': '/images',
+  },
   runtimeConfig: {
     public: {
       API_URL: process.env.API_URL || "https://dummyjson.com",

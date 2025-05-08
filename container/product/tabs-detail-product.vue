@@ -12,10 +12,10 @@
     </div>
   </div>
   <div v-if="activeTab === 0 && item" class="max-w-96 md:max-w-[78rem] w-full pt-8">
-    <ProductDescription :item="item"/>
+    <ProductDescription v-if="item" :item="item"/>
   </div>
   <div v-else class="max-w-96 md:max-w-[78rem] w-full pt-8">
-    <ReviewProduct :items="item.reviews" v-if="item.reviews"/>
+    <!-- <ReviewProduct :items="item.reviews" v-if="item.reviews"/> -->
   </div>
 
 </template>

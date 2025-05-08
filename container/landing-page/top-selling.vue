@@ -1,22 +1,30 @@
 <template>
-  <ProductCardContainer title="Top Selling" :data="dataProducts" :onLoadMore="handleLoadMore"/>
+  <ProductCardContainer
+    title="Top Selling" :data="dataProducts"
+    :onLoadMore="handleLoadMore"
+    :isShowShopNow="dataProducts?.data?.length >= 24"
+    :path="'/sale'"
+  />
 </template>
 
 <script setup>
-import { apiConfig } from '~/constants/api';
+import { ref } from 'vue';
 import ProductCardContainer from '~/component/product-card/product-card-container.vue';
 
 const dataProducts = ref([])
 const lengthData = ref(0)
 const limitInit = ref(8)
+const config = useRuntimeConfig();
 
 const getProductsWithByDiscount = async() => {
-  const data = await apiFetch(`${apiConfig.product.getList}?sortBy=discountPercentage&limit=${limitInit.value}&order=desc`)
-  dataProducts.value = data
-  lengthData.value = data.total
+  const dataResponse = await $fetch(`${config.public.URL_API}/api/products?sort=price&limit=${limitInit.value}`)
+  dataProducts.value = dataResponse
+  lengthData.value = dataResponse.totalItems
 }
 
-getProductsWithByDiscount();
+onMounted(() => {
+  getProductsWithByDiscount();
+})
 
 const handleLoadMore = async() => {
   if (limitInit.value < lengthData.value) {

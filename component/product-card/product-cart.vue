@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <NuxtLink :to="formatProductSlugDetail(itemProduct.title, itemProduct.id)" v-if="showCard"
+    <NuxtLink :to="formatProductSlugDetail(itemProduct.title, itemProduct._id)" v-if="showCard"
       class="flex flex-col items-start gap-2 w-full">
       <div class="border border-[#f0eeed]  rounded-[20px] px-4 py-4 w-full max-w-[300px] shadow-sm">
         <NuxtImg :src="itemProduct.thumbnail"
@@ -21,7 +21,7 @@
       <div class="font-bold text-2xl flex items-center gap-2.5 pb-5 ">
         <div v-if="itemProduct.discountPercentage && itemProduct.discountPercentage > 1"
           class="flex gap-2 items-center flex-wrap">
-          <div class="text-[25px]">${{ calculateTotalDiscount(itemProduct).toFixed(2) }}</div>
+          <div class="text-[25px]">{{ calculateTotalDiscount(itemProduct) }}</div>
           <div class="justify-center text-black/30 text-[25px] font-bold line-through">
             {{ formatCurrency(itemProduct.price) }}
           </div>
@@ -64,7 +64,7 @@ onMounted(() => {
 });
 const calculateTotalDiscount = ((item) => {
   const calculatePercentage = item.price * (item.discountPercentage / 100)
-  return item.price - calculatePercentage
+  return formatCurrency(item.price - calculatePercentage)
 })
 </script>
 
@@ -78,7 +78,6 @@ const calculateTotalDiscount = ((item) => {
   opacity: 0;
   transform: scale(0.7)
 }
-
 
 .fade-enter-to {
   opacity: 1;

@@ -10,7 +10,7 @@
       <Icon name="ic:outline-clear" style="color: black" class="text-[20px]" />
     </button>
     <div v-show="inputShowModalFilter" v-if="filterInput.length > 0 && inputShowModalFilter" class="menu-container z-50 max-h-[500px] overflow-x-hidden overflow-y-scroll absolute w-[95%]  shadow-sm border-gray-300  mt-0 top-full border rounded-[2px]  bg-white transition-all">
-      <div class="flex flex-col text-black">
+      <div class="flex flex-col text-black" @click="onClickItemMenu">
         <NuxtLink :to="item"  v-for="item in filterInput" :key="item" class=" transition-all hover:bg-gray-200 px-5 py-2 hover:scale-105">
           {{ item }}
         </NuxtLink>
@@ -23,10 +23,6 @@
 const data = ref([])
 const inputRef = ref('')
 const inputShowModalFilter = ref('')
-
-onMounted(() => {
-  document.addEventListener('click', closeMenu)
-})
 
 onUnmounted(() => {
   document.removeEventListener('click', closeMenu)
@@ -47,10 +43,16 @@ const handleClearInput = () => {
   inputRef.value = ''
 }
 
+const onClickItemMenu = () => {
+  inputRef.value = ''
+}
+
 onMounted(async () => {
+  document.addEventListener('click', closeMenu)
+
   try {
     const response = await $fetch('/api/category-list')
-    data.value = response
+    data.value = response.data.listCategory
   } catch (error) {
     console.error("Fetch error:", error)
   }

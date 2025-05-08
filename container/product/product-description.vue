@@ -20,9 +20,9 @@
       <div class="text-base font-normal text-[#00000066] pb-4 pt-4">Availability status: <b>{{ item.availabilityStatus}}</b>, Stock: <b>{{ item.stock }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">
         <div class="flex">
-          Depth:<b class="ml-2"> {{ item.dimensions.depth }} in</b>,
-          Height:<b class="ml-2"> {{ item.dimensions.height }} in</b>,
-          Width:<b class="ml-2"> {{ item.dimensions.width }} in</b>
+          Depth:<b class="ml-2"> {{ item.dimensions?.depth }} in</b>,
+          Height:<b class="ml-2"> {{ item.dimensions?.height }} in</b>,
+          Width:<b class="ml-2"> {{ item.dimensions?.width }} in</b>
         </div>
       </div>
       <div class="text-base font-normal text-[#00000066] pb-4">Return Policy: <b> {{ item.returnPolicy }}</b></div>

@@ -28,7 +28,6 @@
 </template>
 
 <script setup>
-const url = useRequestURL()
 const isOpen = ref(false)
 const route = useRoute()
 
@@ -57,7 +56,7 @@ watch(() => route.fullPath, () => {
 })
 
 watch(response, (newData) => {
-  return itemsMenu.value = newData.map(item => formatTextSlug(item))
+  return itemsMenu.value = newData.data.listCategory.map(item => formatTextSlug(item))
 }, { deep: true, immediate: true })
 
 const getCorrectLink = (slug) => {

@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="pr-10 w-[444px] h-full">
-      <ImageZoom :image-src="imgActive.value"/>
+      <imageZoom v-if="imgActive" :image-src="imgActive.value"/>
     </div>
     <div class="flex flex-col max-w-[600px] h-full justify-between">
       <h1 class="font-bold text-[40px] uppercase leading-[40px]">{{ item.title }}</h1>
@@ -42,14 +42,15 @@
       <div class="text-base font-normal text-[#00000066] pb-4 pt-4">Availability status: <b>{{ item.availabilityStatus}}</b>, Stock: <b>{{ item.stock }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">
         <div class="flex">
-          Depth:<b class="ml-2"> {{ item.dimensions.depth }} in</b>,
-          Height:<b class="ml-2"> {{ item.dimensions.height }} in</b>,
+          Depth:<b class="ml-2"> {{ item.dimensions?.depth }} in</b>,
+          Height:<b class="ml-2"> {{ item.dimensions?.height }} in</b>,
           Width:<b class="ml-2"> {{ item.dimensions.width }} in</b>
         </div>
       </div>
       <div class="text-base font-normal text-[#00000066] pb-4">Return Policy: <b> {{ item.returnPolicy }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">Shipping Information: <b> {{ item.shippingInformation }}</b></div>
       <div class="text-base font-normal text-[#00000066] pb-4">Warranty Information: <b> {{ item.warrantyInformation }}</b></div>
+      <div class="text-base font-normal text-[#00000066] pb-4">Color: <b> {{ item.warrantyInformation }}</b></div>
       <div class="w-full outline-1 outline-offset-[-0.50px] outline-black/10"></div>
       <div class="flex gap-5 pt-4">
         <div
@@ -72,7 +73,7 @@
 <script setup>
 import Button from '~/component/button/button.vue'
 import vue3starRatings from "vue3-star-ratings";
-import ImageZoom from '~/component/image-zoom/image-zoom.vue';
+import imageZoom from '../../component/image-zoom/image-zoom.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
